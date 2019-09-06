@@ -1,3 +1,6 @@
+# STAGE: base
+# -----------
+# The main image that is published.
 FROM python:3.6-slim AS base
 
 WORKDIR /source
@@ -27,10 +30,11 @@ RUN \
 
 CMD ["python"]
 
+# STAGE: test
+# -----------
+# Image used for running tests.
 FROM base AS test
 
 RUN pip install pytest==4.*
-
 COPY test ./test
-
 CMD ["pytest"]
