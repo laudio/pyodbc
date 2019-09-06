@@ -39,3 +39,6 @@ $ docker pull laudio/pyodbc
    ```bash
    $ docker run laudio/pyodbc:<tag>
    ```
+
+## License
+Licensed under [MIT](LICENSE).
