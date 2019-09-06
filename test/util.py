@@ -9,17 +9,16 @@ basicConfig(level='DEBUG')
 logger = getLogger()
 
 PG_DRIVER = '{PostgreSQL Unicode}'
-PG_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
-
 MSSQL_DRIVER = '{ODBC Driver 17 for SQL Server}'
-MSSQL_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
+
+CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
 
 
 def get_conn_str(driver):
     ''' Get database connection string for the provided driver. '''
 
     if driver == PG_DRIVER:
-        return PG_CONNECTION_STRING.format(
+        return CONNECTION_STRING.format(
             driver=driver,
             server=os.environ['TEST_PG_DB_HOST'],
             database=os.environ['TEST_PG_DB_NAME'],
@@ -29,7 +28,7 @@ def get_conn_str(driver):
         )
 
     elif driver == MSSQL_DRIVER:
-        return MSSQL_CONNECTION_STRING.format(
+        return CONNECTION_STRING.format(
             driver=MSSQL_DRIVER,
             server=os.environ['TEST_MSSQL_DB_HOST'],
             database=os.environ['TEST_MSSQL_DB_NAME'],
