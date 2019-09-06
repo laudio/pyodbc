@@ -1,4 +1,4 @@
-FROM python:3.6-slim
+FROM python:3.6-slim AS base
 
 WORKDIR /source
 
@@ -26,3 +26,11 @@ RUN \
   apt-mark manual libssl1.0.2 && apt-get autoremove -y && apt-get autoclean -y
 
 CMD ["python"]
+
+FROM base AS test
+
+RUN pip install pytest==4.*
+
+COPY test ./test
+
+CMD ["pytest"]
