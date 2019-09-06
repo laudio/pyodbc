@@ -37,4 +37,4 @@ FROM base AS test
 
 RUN pip install pytest==4.*
 COPY test ./test
-CMD ["pytest"]
+CMD ["pytest", "-v"]
