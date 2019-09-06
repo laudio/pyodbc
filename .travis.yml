@@ -1,0 +1,16 @@
+dist: xenial
+language: python
+cache: pip
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+branches:
+  only:
+    - travis
+    - master
+
+script:
+  - docker build -t laudio/pyodbc .
