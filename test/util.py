@@ -11,7 +11,7 @@ logger = getLogger()
 MSSQL_ODBC_DRIVER = '{ODBC Driver 17 for SQL Server}'
 MSSQL_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
 
-PG_ODBC_DRIVER = '{PostgreSQL}'
+PG_ODBC_DRIVER = '{PostgreSQL Unicode}'
 PG_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
 
 
