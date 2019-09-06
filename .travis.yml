@@ -7,7 +7,7 @@ addons:
       - docker-ce
 
 before_script:
-  - env | grep "MSSQL_" > .env
+  - env | grep "TEST_" > .env
 
 script:
   # Build docker images
@@ -15,7 +15,7 @@ script:
   - docker build --target=test -t laudio/pyodbc:test .
 
   # Spin up a MS SQL Server container
-  - docker run -e ACCEPT_EULA=Y -e SA_PASSWORD=${MSSQL_DB_PASSWORD} --name=test-mssql-server -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
+  - docker run -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} --name=test-mssql-server -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
   - sleep 10s
 
   # Run the test image
