@@ -9,7 +9,7 @@ WORKDIR /source
 ENV ACCEPT_EULA Y
 
 # Setup dependencies for pyodbc
-RUN \
+ONBUILD RUN \
   apt-get update && \
   apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
   #
@@ -35,6 +35,7 @@ CMD ["python"]
 # Image used for running tests.
 FROM base AS test
 
-RUN pip install pytest==4.*
-COPY test ./test
+ONBUILD RUN pip install pytest==4.*
+ONBUILD COPY test ./test
+
 CMD ["pytest", "-v"]
