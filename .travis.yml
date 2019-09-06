@@ -6,6 +6,9 @@ addons:
     packages:
       - docker-ce
 
+before_script:
+  - env | grep "MSSQL_" > .env 
+
 script:
   - docker build --target=base -t laudio/pyodbc .
   - docker build --target=test -t laudio/pyodbc:test . && docker run laudio/pyodbc:test
