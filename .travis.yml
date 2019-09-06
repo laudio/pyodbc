@@ -7,10 +7,5 @@ addons:
     packages:
       - docker-ce
 
-branches:
-  only:
-    - travis
-    - master
-
 script:
   - docker build -t laudio/pyodbc .
