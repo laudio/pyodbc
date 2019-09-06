@@ -17,5 +17,7 @@ script:
   - docker run -e ACCEPT_EULA=Y -e SA_PASSWORD=${MSSQL_DB_PASSWORD} --name=test-mssql-server -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
   # Run the test image
   - docker run --env-file=./.env --network=host laudio/pyodbc:test
+
+after_script:
   # Stop MS SQL Server container
   - docker stop test-mssql-server
