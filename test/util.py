@@ -41,7 +41,7 @@ def mssql_exec_query(sql):
 def pg_exec_query(sql):
     ''' PostgreSQL - Execute a test SQL query on the database. '''
     connection_str = PG_CONNECTION_STRING.format(
-        driver=PG_CONNECTION_STRING,
+        driver=PG_ODBC_DRIVER,
         server=os.environ['TEST_PG_DB_HOST'],
         database=os.environ['TEST_PG_DB_NAME'],
         username=os.environ['TEST_PG_DB_USER'],
