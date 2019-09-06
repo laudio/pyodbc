@@ -1,0 +1,10 @@
+dist: xenial
+language: python
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+script:
+  - docker build -t laudio/pyodbc .
