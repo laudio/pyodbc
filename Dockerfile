@@ -1,4 +1,4 @@
-FROM python:3.6-slim AS base
+FROM python:3.6-slim
 
 WORKDIR /source
 
