@@ -1,4 +1,4 @@
-''' Test MSSQL Connection works. '''
+''' Tests for database connections. '''
 
 from util import logger, mssql_exec_query, pg_exec_query
 
