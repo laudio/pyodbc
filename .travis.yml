@@ -8,3 +8,4 @@ addons:
 
 script:
   - docker build --target=base -t laudio/pyodbc .
+  - docker build --target=test -t laudio/pyodbc:test . && docker run laudio/pyodbc:test
