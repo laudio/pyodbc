@@ -23,7 +23,6 @@ RUN \
   pip install pyodbc==4.0.27 && \
   # Cleanup build dependencies
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync build-essential gnupg2 && \
-  apt-get autoremove -y && apt-get autoclean -y && apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  apt-get autoremove -y && apt-get autoclean -y && apt-get clean
 
 CMD ["python"]
