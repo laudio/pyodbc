@@ -16,7 +16,7 @@ script:
 
   # Spin up a mssql & pg database server containers
   - docker run --name test-mssql-server -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
-  - docker run --name test-postgres-server -e POSTGRES_PASSWORD=${TEST_PG_DB_PASSWORD} -d -p 5432:5432 postgres
+  - docker run --name test-pg-server -e POSTGRES_PASSWORD=${TEST_PG_DB_PASSWORD} -d -p 5432:5432 postgres
   - sleep 10s
 
   # Run the test image
@@ -25,7 +25,7 @@ script:
 after_script:
   # Stop the running containers
   - docker stop test-mssql-server
-  - docker stop test-postgres-server
+  - docker stop test-pg-server
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
