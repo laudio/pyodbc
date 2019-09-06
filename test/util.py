@@ -8,29 +8,56 @@ from logging import getLogger, basicConfig, DEBUG
 basicConfig(level='DEBUG')
 logger = getLogger()
 
-MSSQL_ODBC_DRIVER = '{ODBC Driver 17 for SQL Server}'
+PG_DRIVER = '{PostgreSQL Unicode}'
+PG_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
+
+MSSQL_DRIVER = '{ODBC Driver 17 for SQL Server}'
 MSSQL_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
 
-PG_ODBC_DRIVER = '{PostgreSQL Unicode}'
-PG_CONNECTION_STRING = 'DRIVER={driver};SERVER={server};PORT={port};DATABASE={database};UID={username};PWD={password}'
+
+def get_conn_str(driver):
+    ''' Get database connection string for the provided driver. '''
+
+    if driver == PG_DRIVER:
+        return PG_CONNECTION_STRING.format(
+            driver=driver,
+            server=os.environ['TEST_PG_DB_HOST'],
+            database=os.environ['TEST_PG_DB_NAME'],
+            username=os.environ['TEST_PG_DB_USER'],
+            password=os.environ['TEST_PG_DB_PASSWORD'],
+            port=5432
+        )
+
+    elif driver == MSSQL_DRIVER:
+        return MSSQL_CONNECTION_STRING.format(
+            driver=MSSQL_DRIVER,
+            server=os.environ['TEST_MSSQL_DB_HOST'],
+            database=os.environ['TEST_MSSQL_DB_NAME'],
+            username=os.environ['TEST_MSSQL_DB_USER'],
+            password=os.environ['TEST_MSSQL_DB_PASSWORD'],
+            port=1433
+        )
+
+    else:
+        raise RuntimeError('Unsupported driver provided: {}'.format(driver))
+
+
+def connect(driver):
+    ''' Connect to the database server. '''
+    connection_str = get_conn_str(driver)
+
+    logger.debug('Connecting to Database Server [driver={}].'.format(driver))
+
+    return pyodbc.connect(connection_str)
 
 
 def mssql_exec_query(sql):
     ''' MSSQL - Execute a test SQL query on the database. '''
-    connection_str = MSSQL_CONNECTION_STRING.format(
-        driver=MSSQL_ODBC_DRIVER,
-        server=os.environ['TEST_MSSQL_DB_HOST'],
-        database=os.environ['TEST_MSSQL_DB_NAME'],
-        username=os.environ['TEST_MSSQL_DB_USER'],
-        password=os.environ['TEST_MSSQL_DB_PASSWORD'],
-        port=1433
-    )
+    connection = connect(MSSQL_DRIVER)
 
-    logger.debug('Connecting to MSSQL Server.')
-    cnxn = pyodbc.connect(connection_str)
     logger.debug('MSSQL Database connection estabilished.')
     logger.debug('Creating a new cursor.')
-    cursor = cnxn.cursor()
+    cursor = connection.cursor()
     logger.debug('Executing SQL query.')
     result = cursor.execute(sql).fetchval()
     logger.debug('Received SQL query result.')
@@ -40,20 +67,11 @@ def mssql_exec_query(sql):
 
 def pg_exec_query(sql):
     ''' PostgreSQL - Execute a test SQL query on the database. '''
-    connection_str = PG_CONNECTION_STRING.format(
-        driver=PG_ODBC_DRIVER,
-        server=os.environ['TEST_PG_DB_HOST'],
-        database=os.environ['TEST_PG_DB_NAME'],
-        username=os.environ['TEST_PG_DB_USER'],
-        password=os.environ['TEST_PG_DB_PASSWORD'],
-        port=5432
-    )
+    connection = connect(PG_DRIVER)
 
-    logger.debug('Connecting to Postgresql Server.')
-    cnxn = pyodbc.connect(connection_str)
     logger.debug('Postgresql Database connection estabilished.')
     logger.debug('Creating a new cursor.')
-    cursor = cnxn.cursor()
+    cursor = connection.cursor()
     logger.debug('Executing SQL query.')
     result = cursor.execute(sql).fetchval()
     logger.debug('Received SQL query result.')
