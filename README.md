@@ -31,7 +31,7 @@ $ docker pull laudio/pyodbc
 3. Build a docker image.
 
    ```bash
-   $ docker build -t laudio/pyodbc:<tag> .
+   $ docker build --target=base -t laudio/pyodbc:<tag> .
    ```
 
 4. Run docker container.
