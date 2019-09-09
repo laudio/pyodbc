@@ -3,9 +3,6 @@
 # The main image that is published.
 FROM python:3.7-slim AS base
 
-# Build Constants
-ENV ACCEPT_EULA Y
-
 # Setup dependencies for pyodbc
 RUN \
   apt-get update && \
