@@ -31,7 +31,7 @@ RUN \
 # Image used for running tests.
 FROM base AS test
 
-WORKDIR /source
+WORKDIR /test
 COPY requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 COPY test ./test
