@@ -9,6 +9,15 @@ addons:
     packages:
       - docker-ce
 
+install:
+  # Semver Bash
+  - sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
+  - semver --version
+
+  # Hub
+  - sudo snap install hub --classic
+  - hub --version
+
 before_script:
   - export IMAGE_NAME='laudio/pyodbc'
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)

@@ -2,9 +2,6 @@
 
 set -e
 
-# Download semver
-sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver --silent -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
-
 last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 timestamp=$(date -u +%Y%m%d%H%M%S)
