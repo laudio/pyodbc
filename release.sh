@@ -24,7 +24,13 @@ echo "Tagged docker image $image_tag"
   # Push the newly tagged image to registry and GitHub
   docker push "${image_tag}"
   docker push "${IMAGE_NAME}:latest"
-  git push origin "${new_version}"
+
+  # Create a new release in GitHub
+  if [ "$BRANCH" != "master" ]; then
+    hub release create "${new_version}" -m "${new_version}" -p || true
+  else
+    hub release create "${new_version}" -m "${new_version}" || true
+  fi
 
   echo "Published $image_tag"
 # else
