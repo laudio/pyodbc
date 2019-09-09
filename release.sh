@@ -9,8 +9,7 @@ last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 new_version=$(if [ "$BRANCH" == "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${BRANCH}"; fi)
 
-echo "Last Version: ${last_tag}"
-echo "New Version: ${new_version}"
+echo "Bump version: ${last_tag} -> ${new_version}"
 
 git tag "${new_version}"
 
