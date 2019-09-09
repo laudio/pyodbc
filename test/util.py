@@ -51,7 +51,7 @@ def get_conn_str(db):
         )
 
     else:
-        raise RuntimeError('Unsupported driver provided: {}'.format(driver))
+        raise RuntimeError('Unsupported database connection: {}'.format(db))
 
 
 def connect(driver):
