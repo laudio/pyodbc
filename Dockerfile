@@ -5,6 +5,7 @@ FROM python:3.7-slim AS base
 
 # Setup dependencies for pyodbc
 RUN \
+  export ACCEPT_EULA='Y' && \
   apt-get update && \
   apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
   #
