@@ -1,17 +1,37 @@
 dist: xenial
 
+branches:
+  only:
+    - master
+
 addons:
   apt:
     packages:
       - docker-ce
 
+install:
+  # Semver Bash
+  - sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
+  - semver --version
+
+  # Hub
+  - sudo snap install hub --classic
+  - hub --version
+
 before_script:
+  - export IMAGE_NAME='laudio/pyodbc'
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - git fetch --tags
+  - git config --global user.name "Brother"
+  - git config --global user.email "bot@laudio.com"
+
+  # Generate .env file
   - env | grep "TEST_" > .env
 
 script:
   # Build docker images
-  - docker build --target=base -t laudio/pyodbc .
-  - docker build --target=test -t laudio/pyodbc:test .
+  - docker build --target=base -t ${IMAGE_NAME} .
+  - docker build --target=test -t ${IMAGE_NAME}:test .
 
   # Spin up a mssql & pg database server containers
   - docker run --name test-mssql-server -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
@@ -19,12 +39,15 @@ script:
   - sleep 10s
 
   # Run the test image
-  - docker run --env-file=./.env --network=host laudio/pyodbc:test
+  - docker run --env-file=./.env --network=host ${IMAGE_NAME}:test
+
+  # Publish image to registry if merged into master.
+  - ./release.sh
+
+  # List docker images that are built (Just for information.)
+  - docker images laudio/*
 
 after_script:
   # Stop the running containers
   - docker stop test-mssql-server
   - docker stop test-pg-server
-
-  # List docker images that are built (Just for information.)
-  - docker images laudio/*
