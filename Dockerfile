@@ -26,8 +26,6 @@ RUN \
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync unixodbc-dev build-essential gnupg2 && \
   apt-get autoremove -y && apt-get autoclean -y
 
-CMD ["python"]
-
 # STAGE: test
 # -----------
 # Image used for running tests.
