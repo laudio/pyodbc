@@ -17,22 +17,16 @@ docker tag "${IMAGE_NAME}" "${image_tag}"
 echo "Tagged docker image $image_tag"
 
 # If the branch is master, publish it.
-# if [ "$BRANCH" = "master" ]; then
+if [ "$BRANCH" = "master" ]; then
   # Login to Docker
   echo "${DOCKER_REGISTRY_PASSWORD}" | docker login -u "${DOCKER_REGISTRY_USERNAME}" --password-stdin
 
   # Push the newly tagged image to registry and GitHub
   docker push "${image_tag}"
   docker push "${IMAGE_NAME}:latest"
-
-  # Create a new release in GitHub
-  if [ "$BRANCH" != "master" ]; then
-    hub release create "${new_version}" -m "${new_version}" -p || true
-  else
-    hub release create "${new_version}" -m "${new_version}" || true
-  fi
+  hub release create "${new_version}" -m "${new_version}" || true
 
   echo "Published $image_tag"
-# else
-#   echo "Publish skipped"
-# fi
+else
+  echo "Publish skipped"
+fi
