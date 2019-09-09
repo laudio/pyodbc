@@ -33,6 +33,8 @@ CMD ["python"]
 # Image used for running tests.
 FROM base AS test
 
+WORKDIR /source
 RUN pip install pytest==4.*
 COPY test ./test
+
 CMD ["pytest", "-v"]
