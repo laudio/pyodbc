@@ -1,17 +1,24 @@
 dist: xenial
 
+branches:
+  only:
+    - master
+
 addons:
   apt:
     packages:
       - docker-ce
 
 before_script:
+  - export IMAGE_NAME='laudio/pyodbc'
+  - export BRANCH=$(if [ “$TRAVIS_PULL_REQUEST” == “false” ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - env | grep "TEST_" > .env
+  - git fetch --unshallow
 
 script:
   # Build docker images
-  - docker build --target=base -t laudio/pyodbc .
-  - docker build --target=test -t laudio/pyodbc:test .
+  - docker build --target=base -t ${IMAGE_NAME} .
+  - docker build --target=test -t ${IMAGE_NAME}:test .
 
   # Spin up a mssql & pg database server containers
   - docker run --name test-mssql-server -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
@@ -19,12 +26,15 @@ script:
   - sleep 10s
 
   # Run the test image
-  - docker run --env-file=./.env --network=host laudio/pyodbc:test
+  - docker run --env-file=./.env --network=host ${IMAGE_NAME}:test
+
+  # List docker images that are built (Just for information.)
+  - docker images laudio/*
+
+  # Publish image to registry if merged into master.
+  - ./release.sh
 
 after_script:
   # Stop the running containers
   - docker stop test-mssql-server
   - docker stop test-pg-server
-
-  # List docker images that are built (Just for information.)
-  - docker images laudio/*
