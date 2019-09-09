@@ -28,11 +28,11 @@ script:
   # Run the test image
   - docker run --env-file=./.env --network=host ${IMAGE_NAME}:test
 
-  # List docker images that are built (Just for information.)
-  - docker images laudio/*
-
   # Publish image to registry if merged into master.
   - ./release.sh
+
+  # List docker images that are built (Just for information.)
+  - docker images laudio/*
 
 after_script:
   # Stop the running containers
