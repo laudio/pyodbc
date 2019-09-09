@@ -1,7 +1,7 @@
 # STAGE: base
 # -----------
 # The main image that is published.
-FROM python:3.7-slim AS base
+FROM python:3.6-slim AS base
 
 # Build Constants
 ENV ACCEPT_EULA Y
