@@ -8,7 +8,7 @@ sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/
 last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 timestamp=$(date -u +%Y%m%d%H%M%S)
-new_version=$(if [ "$BRANCH" == "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${BRANCH}.$timestamp"; fi)
+new_version=$(if [ "$BRANCH" = "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${BRANCH}.$timestamp"; fi)
 
 echo "Bump version: ${last_tag} -> ${new_version}"
 git tag "${new_version}"
@@ -20,7 +20,7 @@ docker tag "${IMAGE_NAME}" "${image_tag}"
 echo "Tagged docker image $image_tag"
 
 # If the branch is master, publish it.
-# if [ "$BRANCH" == "master" ]; then
+# if [ "$BRANCH" = "master" ]; then
   # Login to Docker
   echo "${DOCKER_REGISTRY_PASSWORD}" | docker login -u "${DOCKER_REGISTRY_USERNAME}" --password-stdin
 
