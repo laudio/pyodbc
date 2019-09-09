@@ -27,11 +27,12 @@ publish() {
   # Publish to registry
   docker push "$image_tag"
   docker push "${IMAGE_NAME}:latest"
-
-  echo "Published image $image_tag"
 }
 
 # If the branch is master, publish it.
 if [ "$BRANCH" = "master" ]; then
   publish
+  echo "Published image $image_tag"
+else
+  echo "Publish skipped"
 fi
