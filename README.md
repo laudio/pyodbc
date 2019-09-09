@@ -4,7 +4,7 @@
 [![LICENSE](https://img.shields.io/github/license/laudio/pyodbc.svg?style=flat-square)](https://github.com/laudio/pyodbc/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laudio/pyodbc)
 
-Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc) with odbc drivers for MSSQL and PostgreSQL.
+Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc), includes odbc drivers for MSSQL and PostgreSQL.
 
 https://hub.docker.com/r/laudio/pyodbc
 
