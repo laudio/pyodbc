@@ -29,9 +29,7 @@ script:
   - docker run --env-file=./.env --network=host ${IMAGE_NAME}:test
 
   # Publish image to registry if merged into master.
-  - if [ ${BRANCH} = "master" ]; then
-      ./release.sh
-    fi
+  - ./release.sh
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
