@@ -19,7 +19,7 @@ docker tag "${IMAGE_NAME}" "${image_tag}"
 echo "Tagged docker image $image_tag"
 
 # If the branch is master, publish it.
-if [ "$BRANCH" == "master" ]; then
+# if [ "$BRANCH" == "master" ]; then
   # Login to Docker
   echo "${DOCKER_REGISTRY_PASSWORD}" | docker login -u "${DOCKER_REGISTRY_USERNAME}" --password-stdin
 
@@ -28,7 +28,7 @@ if [ "$BRANCH" == "master" ]; then
   docker push "${IMAGE_NAME}:latest"
   git push origin "${new_version}"
 
-  echo "Published image $image_tag"
-else
-  echo "Publish skipped"
-fi
+  echo "Published $image_tag"
+# else
+#   echo "Publish skipped"
+# fi
