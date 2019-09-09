@@ -3,14 +3,13 @@
 set -e
 
 # Download semver
-sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
+sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver --silent -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
 
 last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 new_version=$(if [ "$BRANCH" == "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${BRANCH}"; fi)
 
 echo "Bump version: ${last_tag} -> ${new_version}"
-
 git tag "${new_version}"
 
 # Create image tag
