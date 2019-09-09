@@ -1,17 +1,17 @@
 ''' Tests for database connections. '''
 
-from util import mssql_exec_query, pg_exec_query
+from util import exec_query, PG, MSSQL
 
 
 def test_mssql():
     ''' Test connection to MSSQL Server. '''
-    result = mssql_exec_query("SELECT 'It works!'")
+    result = exec_query(PG, "SELECT 'It works!'")
 
     assert result == 'It works!'
 
 
 def test_pg():
     ''' Test connection to PostgreSQL Server. '''
-    result = pg_exec_query("SELECT 'It works!'")
+    result = exec_query(MSSQL, "SELECT 'It works!'")
 
     assert result == 'It works!'

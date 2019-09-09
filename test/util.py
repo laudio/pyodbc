@@ -8,11 +8,17 @@ from logging import getLogger, basicConfig, DEBUG
 basicConfig(level='DEBUG')
 logger = getLogger()
 
-PG_DRIVER = '{PostgreSQL Unicode}'
-MSSQL_DRIVER = '{ODBC Driver 17 for SQL Server}'
+# Database Connections
+PG = 'pg'
+MSSQL = 'mssql'
+
+# Database Drivers
+drivers = {}
+drivers[PG] = '{PostgreSQL Unicode}'
+drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
 
 
-def get_conn_str(driver):
+def get_conn_str(db):
     ''' Get database connection string for the provided driver. '''
     conn_str = ';'.join([
         'DRIVER={driver}',
@@ -22,8 +28,9 @@ def get_conn_str(driver):
         'UID={username}',
         'PWD={password}'
     ])
+    driver = drivers[db]
 
-    if driver == PG_DRIVER:
+    if db == PG:
         return conn_str.format(
             driver=driver,
             server=os.environ['TEST_PG_DB_HOST'],
@@ -33,9 +40,9 @@ def get_conn_str(driver):
             port=5432
         )
 
-    elif driver == MSSQL_DRIVER:
+    elif db == MSSQL:
         return conn_str.format(
-            driver=MSSQL_DRIVER,
+            driver=driver,
             server=os.environ['TEST_MSSQL_DB_HOST'],
             database=os.environ['TEST_MSSQL_DB_NAME'],
             username=os.environ['TEST_MSSQL_DB_USER'],
@@ -56,29 +63,15 @@ def connect(driver):
     return pyodbc.connect(connection_str)
 
 
-def mssql_exec_query(sql):
-    ''' MSSQL - Execute a test SQL query on the database. '''
-    connection = connect(MSSQL_DRIVER)
+def exec_query(db, sql):
+    ''' Execute a test SQL query on the given database. '''
+    connection = connect(db)
 
-    logger.debug('MSSQL Database connection estabilished.')
+    logger.debug('Connection estabilished with database - {}.'.format(db))
     logger.debug('Creating a new cursor.')
     cursor = connection.cursor()
     logger.debug('Executing SQL query.')
     result = cursor.execute(sql).fetchval()
-    logger.debug('Received SQL query result.')
-
-    return result
-
-
-def pg_exec_query(sql):
-    ''' PostgreSQL - Execute a test SQL query on the database. '''
-    connection = connect(PG_DRIVER)
-
-    logger.debug('Postgresql Database connection estabilished.')
-    logger.debug('Creating a new cursor.')
-    cursor = connection.cursor()
-    logger.debug('Executing SQL query.')
-    result = cursor.execute(sql).fetchval()
-    logger.debug('Received SQL query result.')
+    logger.debug('Received result set.')
 
     return result
