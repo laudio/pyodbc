@@ -3,8 +3,6 @@
 # The main image that is published.
 FROM python:3.6-slim AS base
 
-WORKDIR /source
-
 # Build Constants
 ENV ACCEPT_EULA Y
 
