@@ -21,8 +21,12 @@ install:
 before_script:
   - export IMAGE_NAME='laudio/pyodbc'
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-  - env | grep "TEST_" > .env
   - git fetch --tags
+  - git config --global user.name "Brother"
+  - git config --global user.email "bot@laudio.com"
+
+  # Generate .env file
+  - env | grep "TEST_" > .env
 
 script:
   # Build docker images
