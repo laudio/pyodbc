@@ -16,29 +16,31 @@ $ docker pull laudio/pyodbc
 
 ## Development
 
-1. Clone this repository.
+```bash
+# 1. Clone this repository.
+$ git clone git@github.com:laudio/pyodbc.git
 
-   ```bash
-   $ git clone git@github.com:laudio/pyodbc.git
-   ```
+# 2. Go to the cloned path.
+$ cd pyodbc
 
-2. Go to the cloned path.
+# 3. Build a docker image.
+$ docker build --target=base -t laudio/pyodbc:<tag> .
 
-   ```bash
-   $ cd pyodbc
-   ```
+# 4. Run the container
+$ docker run laudio/pyodbc:<tag>
+```
 
-3. Build a docker image.
+## Testing
 
-   ```bash
-   $ docker build --target=base -t laudio/pyodbc:<tag> .
-   ```
+You can build the test container image providing the flag `--target=test` and run it.
 
-4. Run docker container.
+```bash
+# Build the test container image
+$ docker build --target=test laudio/pyodbc:test .
 
-   ```bash
-   $ docker run laudio/pyodbc:<tag>
-   ```
+# Run tests
+$ docker run laudio/pyodbc:test
+```
 
 ## License
 
