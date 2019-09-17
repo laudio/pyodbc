@@ -4,7 +4,7 @@
 [![LICENSE](https://img.shields.io/github/license/laudio/pyodbc.svg?style=flat-square)](https://github.com/laudio/pyodbc/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laudio/pyodbc)
 
-Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc), includes ODBC drivers for MSSQL and PostgreSQL.
+Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc). Includes ODBC drivers for MSSQL and PostgreSQL.
 
 https://hub.docker.com/r/laudio/pyodbc
 
@@ -58,7 +58,7 @@ You can build the test container image providing the flag `--target=test` and ru
 # Build the test container image
 $ docker build --target=test laudio/pyodbc:test .
 
-# Create .env.test file with database connection creds
+# Create .env.test file with your database connection creds
 # using the the example file .env.example.
 # You'll need to update .env.test with your values after this.
 $ cp .env.example .env.test
