@@ -4,41 +4,68 @@
 [![LICENSE](https://img.shields.io/github/license/laudio/pyodbc.svg?style=flat-square)](https://github.com/laudio/pyodbc/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laudio/pyodbc)
 
-Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc), includes odbc drivers for MSSQL and PostgreSQL.
+Docker image with python 3.7 and [pyodbc](https://github.com/mkleehammer/pyodbc). Includes ODBC drivers for MSSQL and PostgreSQL.
 
 https://hub.docker.com/r/laudio/pyodbc
 
 ## Usage
 
+#### Pull the image
+
 ```bash
 $ docker pull laudio/pyodbc
 ```
 
+#### Using as a base image
+
+Usually this is expected to be used as a base image for your python app or scripts that requires pyodbc; in such such your `Dockerfile` might look something like this:
+
+```Dockerfile
+FROM laudio/pyodbc:1.0.4
+
+WORKDIR /source
+
+# Add your source files.
+COPY ["app", "./app"]
+COPY ["setup.py", "./"]
+
+RUN pip install .
+
+CMD ["python", "app/main.py"]
+```
+
 ## Development
 
-1. Clone this repository.
+```bash
+# 1. Clone this repository.
+$ git clone git@github.com:laudio/pyodbc.git
 
-   ```bash
-   $ git clone git@github.com:laudio/pyodbc.git
-   ```
+# 2. Go to the cloned path.
+$ cd pyodbc
 
-2. Go to the cloned path.
+# 3. Build a docker image.
+$ docker build --target=base -t laudio/pyodbc:<tag> .
 
-   ```bash
-   $ cd pyodbc
-   ```
+# 4. Run the container
+$ docker run laudio/pyodbc:<tag>
+```
 
-3. Build a docker image.
+## Testing
 
-   ```bash
-   $ docker build --target=base -t laudio/pyodbc:<tag> .
-   ```
+You can build the test container image providing the flag `--target=test` and run it.
 
-4. Run docker container.
+```bash
+# Build the test container image
+$ docker build --target=test laudio/pyodbc:test .
 
-   ```bash
-   $ docker run laudio/pyodbc:<tag>
-   ```
+# Create .env.test file with your database connection creds
+# using the the example file .env.example.
+# You'll need to update .env.test with your values after this.
+$ cp .env.example .env.test
+
+# Run tests
+$ docker run --env-file=.env.test --network=host pyodbc:test
+```
 
 ## License
 
