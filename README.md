@@ -38,8 +38,13 @@ You can build the test container image providing the flag `--target=test` and ru
 # Build the test container image
 $ docker build --target=test laudio/pyodbc:test .
 
+# Create .env.test file with database connection creds
+# using the the example file .env.example.
+# You'll need to update .env.test wit your values after this.
+$ cp .env.example .env.test
+
 # Run tests
-$ docker run laudio/pyodbc:test
+$ docker run --env-file=.env.test --network=host pyodbc:test
 ```
 
 ## License
