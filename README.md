@@ -60,7 +60,7 @@ $ docker build --target=test laudio/pyodbc:test .
 
 # Create .env.test file with database connection creds
 # using the the example file .env.example.
-# You'll need to update .env.test wit your values after this.
+# You'll need to update .env.test with your values after this.
 $ cp .env.example .env.test
 
 # Run tests
