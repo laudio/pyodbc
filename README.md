@@ -10,8 +10,28 @@ https://hub.docker.com/r/laudio/pyodbc
 
 ## Usage
 
+#### Pull the image
+
 ```bash
 $ docker pull laudio/pyodbc
+```
+
+#### Using as a base image
+
+Usually this is expected to be used as a base image for your python app or scripts that requires pyodbc; in such such your `Dockerfile` might look something like this:
+
+```Dockerfile
+FROM laudio/pyodbc:1.0.4
+
+WORKDIR /source
+
+# Add your source files.
+COPY ["app", "./app"]
+COPY ["setup.py", "./"]
+
+RUN pip install .
+
+CMD ["python", "app/main.py"]
 ```
 
 ## Development
