@@ -26,7 +26,7 @@ before_script:
   - git config --global user.email "bot@laudio.com"
 
   # Generate .env file
-  - env | grep "TEST_" > .env
+  - env | grep "TEST_" > .env.test
 
 script:
   # Build docker images
