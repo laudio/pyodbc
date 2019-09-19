@@ -19,7 +19,6 @@ install:
   - hub --version
 
 before_script:
-  - export IMAGE_NAME='laudio/pyodbc'
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - git fetch --tags
   - git config --global user.name "Brother"
@@ -30,16 +29,15 @@ before_script:
 
 script:
   # Build docker images
-  - docker build --target=base -t ${IMAGE_NAME} .
-  - docker build --target=test -t ${IMAGE_NAME}:test .
+  - make clean build
 
   # Spin up a mssql & pg database server containers
   - docker run --name test-mssql-server -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
   - docker run --name test-pg-server -e POSTGRES_USER=${TEST_PG_DB_USER} -e POSTGRES_DB=${TEST_PG_DB_NAME} -e POSTGRES_PASSWORD=${TEST_PG_DB_PASSWORD} -d -p 5432:5432 postgres
   - sleep 10s
 
-  # Run the test image
-  - docker run --env-file=./.env --network=host ${IMAGE_NAME}:test
+  # Run tests
+  - make test
 
   # Publish image to registry if merged into master.
   - ./release.sh
