@@ -44,7 +44,7 @@ $ git clone git@github.com:laudio/pyodbc.git
 $ cd pyodbc
 
 # 3. Build a docker image.
-$ docker build --target=base -t laudio/pyodbc:<tag> .
+$ make build
 
 # 4. Run the container
 $ docker run laudio/pyodbc:<tag>
@@ -55,16 +55,13 @@ $ docker run laudio/pyodbc:<tag>
 You can build the test container image providing the flag `--target=test` and run it.
 
 ```bash
-# Build the test container image
-$ docker build --target=test laudio/pyodbc:test .
-
 # Create .env.test file with your database connection creds
 # using the the example file .env.example.
 # You'll need to update .env.test with your values after this.
 $ cp .env.example .env.test
 
-# Run tests
-$ docker run --env-file=.env.test --network=host pyodbc:test
+# Build the test container image and run tests.
+$ make clean build test
 ```
 
 ## License
