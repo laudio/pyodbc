@@ -19,6 +19,7 @@ install:
   - hub --version
 
 before_script:
+  - export IMAGE_NAME='laudio/pyodbc'
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - git fetch --tags
   - git config --global user.name "Brother"
