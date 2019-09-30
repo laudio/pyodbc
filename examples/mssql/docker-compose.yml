@@ -1,0 +1,12 @@
+version: '3.3'
+
+services:
+  mssql_server:
+    image: "mcr.microsoft.com/mssql/server:2017-GA-ubuntu"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: bad_P4ssword
+  mssql_example_project:
+    build: .
+    depends_on:
+      - mssql_server
