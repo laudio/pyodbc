@@ -5,7 +5,7 @@ set -e
 last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 timestamp=$(date -u +%Y%m%d%H%M%S)
-ref=$(echo "$BRANCH" | sed -e 's/[^a-zA-Z0-9]/-/g')
+ref=$(echo "$BRANCH" | sed -e 's/[^a-zA-Z0-9]//g')
 new_version=$(if [ "$ref" = "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${ref}.$timestamp"; fi)
 
 echo "Bump version: ${last_tag} -> ${new_version}"
