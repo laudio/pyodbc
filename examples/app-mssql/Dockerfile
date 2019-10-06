@@ -1,5 +1,5 @@
 FROM laudio/pyodbc:1.0.8
-LABEL maintainer="Vishwa"
+LABEL author="Vishwa"
 
 WORKDIR /app
 
