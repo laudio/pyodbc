@@ -27,7 +27,7 @@ before_script:
 
   # Generate .env.test file
   - cp .env.example .env.test
-  - export $(egrep -v '^#' .env | xargs)
+  - export $(egrep -v '^#' .env.test | xargs)
 
 script:
   # Build docker images
