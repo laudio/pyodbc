@@ -25,8 +25,9 @@ before_script:
   - git config --global user.name "Brother"
   - git config --global user.email "bot@laudio.com"
 
-  # Generate .env file
-  - env | grep "TEST_" > .env.test
+  # Generate .env.test file
+  - cp .env.example .env.test
+  - export $(egrep -v '^#' .env.test | xargs)
 
 script:
   # Build docker images
