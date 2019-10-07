@@ -1,16 +1,19 @@
 # MSSQL Example
+
 Example project using mssql with pyodbc docker image.
 
 ### Usage
 
-- Set credentials for the DB in enviromental variables.
-```                                                                      
-export DB_NAME='tempdb';
-export DB_USERNAME='SA';
-export DB_PASSWORD='someP4ssword';
-```
-- Start the containers
+Define environment variables.
 
+```bash
+export DB_NAME='tempdb'
+export DB_USERNAME='SA'
+export DB_PASSWORD='TestPassword@1234'
 ```
-docker-compose up
+
+Run the example.
+
+```bash
+$ docker-compose up
 ```
