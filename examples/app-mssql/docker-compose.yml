@@ -8,6 +8,8 @@ services:
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
   app:
     build: .
     depends_on:
@@ -17,3 +19,5 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
