@@ -2,14 +2,12 @@
 
 Example project using mssql with pyodbc docker image.
 
-### Usage
+### Running
 
-Define environment variables.
+Create a `.env` file using the example file.
 
 ```bash
-export DB_NAME='tempdb'
-export DB_USERNAME='SA'
-export DB_PASSWORD='TestPassword@1234'
+$ cp .env.example .env
 ```
 
 Run the example.
