@@ -12,7 +12,7 @@ def main():
     # Wait for mssql db server to fully spawn.
     time.sleep(5)
 
-    print("Establishing mssql database connection")
+    print('Establishing mssql database connection')
     connection_str = CONNECTION_STRING.format(
         server=os.environ['DB_HOST'],
         database=os.environ['DB_NAME'],
@@ -22,23 +22,24 @@ def main():
     conn = pyodbc.connect(connection_str, timeout=300)
     cur = conn.cursor()
 
-    print("Create a new table: fruits")
-    cur.execute("CREATE TABLE fruits (id INT, name NVARCHAR(50), quantity INT);")
+    print('Create a new table: fruits')
+    cur.execute('CREATE TABLE fruits (id INT, name NVARCHAR(50), quantity INT)')
     conn.commit()
 
-    print("Insert data into `fruits` table")
-    cur.execute("INSERT INTO fruits VALUES (1, 'banana', 150);")
-    cur.execute("INSERT INTO fruits VALUES (2, 'orange', 64);")
-    cur.execute("INSERT INTO fruits VALUES (2, 'apples', 35);")
+    print('Insert data into `fruits` table')
+    cur.execute('INSERT INTO fruits VALUES (1, ?, ?)', ('banana', 150))
+    cur.execute('INSERT INTO fruits VALUES (2, ?, ?)', ('orange', 64))
+    cur.execute('INSERT INTO fruits VALUES (2, ?, ?)', ('apples', 35))
     conn.commit()
 
-    print("Select data from `fruits` table")
-    cur.execute("SELECT * FROM fruits WHERE quantity > 50;")
+    print('Select data from `fruits` table')
+    cur.execute('SELECT * FROM fruits WHERE quantity > 50')
     rows = cur.fetchall()
+
     for row in rows:
         print(row.id, row.name, row.quantity)
 
-    print("Closing the connection")
+    print('Closing the connection')
     cur.close()
     conn.close()
 
