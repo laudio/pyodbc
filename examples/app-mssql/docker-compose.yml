@@ -10,6 +10,7 @@ services:
       SA_PASSWORD: ${DB_PASSWORD}
     env_file:
       - .env
+
   app:
     build: .
     depends_on:
