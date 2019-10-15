@@ -33,7 +33,7 @@ def main():
     conn.commit()
 
     print('Retrieve the data')
-    cur.execute('SELECT * FROM fruits WHERE quantity > 50')
+    cur.execute('SELECT * FROM fruits')
     rows = cur.fetchall()
 
     for row in rows:
