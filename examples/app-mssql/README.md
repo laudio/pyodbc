@@ -17,6 +17,7 @@ $ docker-compose up
 ```
 
 **Output**
+
 The output of the application should look like this.
 
 ```bash
