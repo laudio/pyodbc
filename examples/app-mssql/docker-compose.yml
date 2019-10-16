@@ -1,19 +1,24 @@
-version: '3.3'
+version: "3.3"
 
 services:
-  mssql_server:
+  mssql:
     image: "mcr.microsoft.com/mssql/server:2017-GA-ubuntu"
     ports:
       - "1433:1433"
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: ${DB_PASSWORD}
-  mssql_example_project:
+    env_file:
+      - .env
+
+  app:
     build: .
     depends_on:
-      - mssql_server
+      - mssql
     environment:
-      DB_HOST: mssql_server
+      DB_HOST: mssql
       DB_NAME: ${DB_NAME}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
