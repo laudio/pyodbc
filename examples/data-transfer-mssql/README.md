@@ -37,7 +37,7 @@ app_1                | Establishing mssql database connection to destination db
 app_1                | 
 app_1                | 
 app_1                | 
-app_1                | Create a new table for fruits_backup. on destination db
+app_1                | Create a new table for fruits. on destination db
 app_1                | Inserting data to destination db
 app_1                | ----------------List of data from destination.-----------------------
 app_1                | ID    NAME            QUANTITY  
@@ -45,5 +45,9 @@ app_1                | --------------------------------
 app_1                | 1     Banana          150       
 app_1                | 2     Orange          64        
 app_1                | 3     Apple           35        
+app_1                | 
+app_1                | 
+app_1                | 3 rows transferred
+app_1                | 
 app_1                | --- Closing the destination db ---.
 ```

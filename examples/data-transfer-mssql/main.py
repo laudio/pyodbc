@@ -77,6 +77,8 @@ def main():
     for row in destination_rows:
         print(template.format(row.id, row.name, row.quantity))
 
+    print("\n")
+    print(f'{len(destination_rows)} rows transferred\n')
     print('--- Closing the destination db ---.')
     cur2.close()
     destination_conn.close()
