@@ -71,8 +71,6 @@ def main():
     cur2.close()
     destination_conn.close()
 
-    sys.exit(0)
-
 
 def get_connection(db_host,db_name,db_username,db_password):
 
@@ -82,7 +80,12 @@ def get_connection(db_host,db_name,db_username,db_password):
         username=db_username,
         password=db_password
     )
-
+    
     return pyodbc.connect(connection_str, timeout=300)
 
 main()
+
+if __name__ == '__main__':
+    main()
+
+    sys.exit(0)

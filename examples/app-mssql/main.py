@@ -22,7 +22,7 @@ def main():
     conn = pyodbc.connect(connection_str, timeout=300)
     cur = conn.cursor()
 
-    print('Create a new table for fruits')
+    print('Create a new table for fruits.')
     cur.execute('CREATE TABLE fruits (id INT, name NVARCHAR(50), quantity INT)')
     conn.commit()
 
@@ -32,7 +32,7 @@ def main():
     cur.execute('INSERT INTO fruits VALUES (3, ?, ?)', ('Apple', 35))
     conn.commit()
 
-    print('List of data')
+    print('List of data.')
     cur.execute('SELECT * FROM fruits')
     rows = cur.fetchall()
 
