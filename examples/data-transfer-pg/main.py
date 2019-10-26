@@ -31,14 +31,14 @@ def main():
     db2_cur = db2_conn.cursor()
 
     print(f'Creating fruits table and populating data in {db1_name}.')
-    db1_cur.execute('CREATE TABLE fruits (id INT, name VARCHAR(50), quantity INT)')
+    db1_cur.execute(extract_sql('sql/db1_setup.sql'))
     db1_cur.execute('INSERT INTO fruits VALUES (1, ?, ?)', ('Banana', 150))
     db1_cur.execute('INSERT INTO fruits VALUES (2, ?, ?)', ('Orange', 64))
     db1_cur.execute('INSERT INTO fruits VALUES (3, ?, ?)', ('Apple', 35))
     db1_conn.commit()
 
     print(f'Create fruits table in {db2_name} database.')
-    db2_cur.execute('CREATE TABLE fruits (id INT, name VARCHAR(50), quantity INT)')
+    db2_cur.execute(extract_sql('sql/db2_setup.sql'))
     db2_conn.commit()
 
     print(f'Extracting fruits data from {db1_name} database.')
@@ -78,6 +78,13 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str):
         password=db_password
     )
     return pyodbc.connect(connection_str, timeout=300);
+
+
+def extract_sql(file: str):
+    with open (file, 'rt') as file:
+        contents = file.read()  
+    return contents
+
 
 if __name__ == '__main__':
     main()
