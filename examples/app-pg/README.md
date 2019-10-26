@@ -1,4 +1,4 @@
-# POSTGRES Example
+# PostgreSQL Example
 
 Example project using postgres with pyodbc docker image.
 

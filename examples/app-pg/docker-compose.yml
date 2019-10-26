@@ -3,7 +3,7 @@ version: "3.3"
 services:
   postgres:
     image: "postgres"
-    container_name: "my_postgres"
+    container_name: "postgres"
     environment:
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
