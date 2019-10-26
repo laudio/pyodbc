@@ -57,18 +57,17 @@ def main():
     destination_conn = pyodbc.connect(destination_connection_str, timeout=300)
     cur2 = destination_conn.cursor()
 
-    print('\n\n\nCreate a new table for fruits_backup. on destination db')
+    print('\n\n\nCreate a new table for fruits. on destination db')
 
-    cur2.execute('CREATE TABLE fruits_backup (id INT, name NVARCHAR(50), quantity INT)')
+    cur2.execute('CREATE TABLE fruits (id INT, name NVARCHAR(50), quantity INT)')
     destination_conn.commit()
-
 
     print('Inserting data to destination db')
     for row_data in source_rows:
-        cur2.execute('INSERT INTO fruits_backup VALUES (?, ?, ?)', (row_data.id,row_data.name,row_data.quantity))
+        cur2.execute('INSERT INTO fruits VALUES (?, ?, ?)', (row_data.id,row_data.name,row_data.quantity))
         destination_conn.commit()
 
-    cur2.execute('SELECT * FROM fruits_backup')
+    cur2.execute('SELECT * FROM fruits')
     destination_rows = cur2.fetchall()
 
     print('----------------List of data from destination.-----------------------')
