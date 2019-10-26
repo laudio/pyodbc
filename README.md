@@ -67,6 +67,7 @@ $ make clean build test
 ## Examples
 
 1. [MSSQL Example](examples/app-mssql)
+2. [PostgreSQL Example](examples/app-pg)
 
 ## License
 
