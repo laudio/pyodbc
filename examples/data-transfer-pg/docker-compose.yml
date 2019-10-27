@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  postgres-db1:
+    image: "postgres"
+    container_name: "postgres_db1"
+    environment:
+      - POSTGRES_USER=${DB1_USERNAME}
+      - POSTGRES_PASSWORD=${DB1_PASSWORD}
+      - POSTGRES_DB=${DB1_NAME}
+    ports:
+      - "54320:5432"
+    env_file:
+      - .env
+
+  postgres-db2:
+    image: "postgres"
+    container_name: "postgres-db2"
+    environment:
+      - POSTGRES_USER=${DB2_USERNAME}
+      - POSTGRES_PASSWORD=${DB2_PASSWORD}
+      - POSTGRES_DB=${DB2_NAME}
+    ports:
+      - "54321:5432"
+    env_file:
+      - .env
+
+  app:
+    build: .
+    depends_on:
+      - postgres-db1
+      - postgres-db2
+    environment:
+      DB1_HOST: postgres-db1
+      DB1_NAME: ${DB1_NAME}
+      DB1_USERNAME: ${DB1_USERNAME}
+      DB1_PASSWORD: ${DB1_PASSWORD}
+      DB2_HOST: postgres-db2
+      DB2_NAME: ${DB2_NAME}
+      DB2_USERNAME: ${DB2_USERNAME}
+      DB2_PASSWORD: ${DB2_PASSWORD}
+    env_file:
+      - .env
