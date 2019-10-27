@@ -14,28 +14,25 @@ def main():
 
     source_db_conn, dest_db_conn = connect_to_databases()
 
-    source_db_cur = source_db_conn.cursor()
-    dest_db_cur = dest_db_conn.cursor()
+    with source_db_conn, dest_db_conn:
 
-    print(f'Create fruits table and populate data in source database.')
-    source_db_cur.execute(extract_sql('sql/source_db_setup.sql'))
-    source_db_conn.commit()
+        source_db_cur = source_db_conn.cursor()
+        dest_db_cur = dest_db_conn.cursor()
 
-    print(f'Create fruits table in destination database.')
-    dest_db_cur.execute(extract_sql('sql/dest_db_setup.sql'))
-    dest_db_conn.commit()
+        with source_db_cur, dest_db_cur:
 
-    transfer_data(source_db_cur, dest_db_cur, dest_db_conn)
+            print(f'Create fruits table and populate data in source database.')
+            source_db_cur.execute(extract_sql('sql/source_db_setup.sql'))
+            source_db_conn.commit()
 
-    print(f'Display fruits data in destination database.')
-    display_fruits(dest_db_cur)
+            print(f'Create fruits table in destination database.')
+            dest_db_cur.execute(extract_sql('sql/dest_db_setup.sql'))
+            dest_db_conn.commit()
 
-    print('Closing connections.')
-    source_db_cur.close()
-    source_db_conn.close()
+            transfer_data(source_db_cur, dest_db_cur, dest_db_conn)
 
-    dest_db_cur.close()
-    dest_db_conn.close()
+            print(f'Display fruits data in destination database.')
+            display_fruits(dest_db_cur)
 
 
 def get_connection(host: str, db_name: str, db_user: str, db_password: str): 
