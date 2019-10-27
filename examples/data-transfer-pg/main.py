@@ -39,6 +39,7 @@ def main():
 
 
 def get_connection(host: str, db_name: str, db_user: str, db_password: str): 
+    ''' Initiates and returns connection of a database.'''
     print(f'Establishing postgres database connection to {host},')
     connection_str = CONNECTION_STRING.format(
         server=host,
@@ -50,6 +51,7 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str):
 
 
 def connect_to_databases():
+    ''' Extracts databases credentials from environment and returns their connections.'''
     source_db_conn = get_connection(
             os.environ['DB1_HOST'], 
             os.environ['DB1_NAME'], 
@@ -67,12 +69,14 @@ def connect_to_databases():
 
 
 def extract_sql(file: str):
+    ''' Reads an SQL file and returns it's contents.'''
     with open (file, 'rt') as file:
         contents = file.read()  
     return contents
 
 
 def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
+    ''' Extracts fruits data from source database and stores them in destination database.'''
     print(f'Extracting fruits data from source database.')
     source_db_cursor.execute('SELECT * FROM fruits')
     rows = source_db_cursor.fetchall()
@@ -84,6 +88,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
 
 
 def display_fruits(db_cursor):
+    ''' Displays fruits data. '''
     db_cursor.execute('SELECT * FROM fruits')
     transfered_data = db_cursor.fetchall()
     template = '{:<5} {:<15} {:<10}'
