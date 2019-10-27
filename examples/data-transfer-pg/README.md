@@ -33,5 +33,4 @@ app_1           | --------------------------------
 app_1           | 1     Banana          150       
 app_1           | 2     Orange          64        
 app_1           | 3     Apple           35        
-app_1           | Closing connections.
 ```
