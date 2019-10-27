@@ -40,7 +40,7 @@ def main():
 
 def get_connection(host: str, db_name: str, db_user: str, db_password: str): 
     ''' Initiates and returns connection of a database.'''
-    print(f'Establishing postgres database connection to {host},')
+    print(f'Establishing postgres database connection to {host}.')
     connection_str = CONNECTION_STRING.format(
         server=host,
         database=db_name,
@@ -51,7 +51,7 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str):
 
 
 def connect_to_databases():
-    ''' Extracts databases credentials from environment and returns their connections.'''
+    ''' Extracts databases credentials from the environment and returns their connections.'''
     source_db_conn = get_connection(
             os.environ['DB1_HOST'], 
             os.environ['DB1_NAME'], 
