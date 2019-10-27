@@ -27,10 +27,11 @@ app_1           | Create fruits table and populate data in source database.
 app_1           | Create fruits table in destination database.
 app_1           | Extracting fruits data from source database.
 app_1           | Transferring fruits data to destination database.
+app_1           | Transferred 3 rows of fruits data from source database to destination database.
 app_1           | Display fruits data in destination database.
 app_1           | ID    NAME            QUANTITY  
 app_1           | --------------------------------
 app_1           | 1     Banana          150       
 app_1           | 2     Orange          64        
-app_1           | 3     Apple           35        
+app_1           | 3     Apple           35      
 ```

@@ -82,6 +82,8 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     for row in rows:
         dest_db_cursor.execute('INSERT INTO fruits VALUES (?, ?, ?)', (row.id, row.name, row.quantity))
     dest_db_conn.commit()
+    
+    print(f"Transferred {len(rows)} rows of fruits data from source database to destination database.")
 
 
 def display_fruits(db_cursor):
