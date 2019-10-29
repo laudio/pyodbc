@@ -9,10 +9,10 @@ ref=$(echo "$BRANCH" | sed -e "s/[^a-zA-Z0-9]//g")
 new_version=$(if [ "$ref" = "master" ]; then echo "${new_tag}"; else echo "${new_tag}-${ref}.$timestamp"; fi)
 
 validateFileChanges() {
-  #Define sensible file
+  # Define a list of sensible files.
   sensible_files=(Dockerfile .dockerignore requirements.txt)
 
-  #Validate if sensible file are in list
+  # Validate if sensible file are in list.
   for Item in ${sensible_files[*]} ;
   do
     compare_items=$(git diff --name-only HEAD~1..HEAD | grep $Item | grep -v example)
