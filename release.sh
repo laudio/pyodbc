@@ -2,7 +2,7 @@
 
 set -e
 
-last_tag=$(git tag | head -n 1)
+last_tag=$(git tag --sort=-creatordate| head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 timestamp=$(date -u +%Y%m%d%H%M%S)
 ref=$(echo "$BRANCH" | sed -e "s/[^a-zA-Z0-9]//g")
@@ -34,7 +34,7 @@ validateBranch() {
   fi
 }
 
-tagged() {
+create_tag() {
   echo "Bump version: ${last_tag} -> ${new_version}"
   git tag "${new_version}"
 
@@ -60,5 +60,3 @@ publish() {
 
 # Execution
 echo $(validateFileChanges)
-#tagged
-#publish
