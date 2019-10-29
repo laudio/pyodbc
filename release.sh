@@ -12,7 +12,7 @@ validateFileChanges() {
   #Define sensible file
   sensible_files=(Dockerfile .dockerignore requirements.txt)
 
-  #Validate if sensible file are in list
+  # Validate if sensible file are in list.
   for Item in ${sensible_files[*]} ;
   do
     compare_items=$(git diff --name-only HEAD~1..HEAD | grep $Item | grep -v example)
