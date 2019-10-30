@@ -53,7 +53,7 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 def get_connection(db_host,db_name,db_username,db_password):
-
+    ''' create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
         database=db_name,
