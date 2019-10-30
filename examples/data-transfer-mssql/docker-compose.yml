@@ -3,6 +3,7 @@ version: "3.3"
 services:
   mssql_source:
     image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: "mssql_source_db"
     ports:
       - "1433:1433"
     environment:
@@ -10,9 +11,10 @@ services:
       SA_PASSWORD: ${SOURCE_DB_PASSWORD}
     env_file:
       - .env
-      
+
   mssql_destination:
     image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: "mssql_destination_db"
     ports:
       - "1434:1433"
     environment:
