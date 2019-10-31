@@ -1,0 +1,41 @@
+version: "3.3"
+
+services:
+  mssql_source:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: "mssql_source_db"
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${SOURCE_DB_PASSWORD}
+    env_file:
+      - .env
+
+  mssql_destination:
+    image: "mcr.microsoft.com/mssql/server:latest"
+    container_name: "mssql_destination_db"
+    ports:
+      - "1434:1433"
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${DESTINATION_DB_PASSWORD}
+    env_file:
+      - .env
+
+  app:
+    build: .
+    depends_on:
+      - mssql_source
+      - mssql_destination
+    environment:
+      SOURCE_DB_HOST: mssql_source
+      SOURCE_DB_NAME: ${SOURCE_DB_NAME}
+      SOURCE_DB_USERNAME: ${SOURCE_DB_USERNAME}
+      SOURCE_DB_PASSWORD: ${SOURCE_DB_PASSWORD}
+      DESTINATION_DB_HOST: mssql_destination
+      DESTINATION_DB_NAME: ${DESTINATION_DB_NAME}
+      DESTINATION_DB_USERNAME: ${DESTINATION_DB_USERNAME}
+      DESTINATION_DB_PASSWORD: ${DESTINATION_DB_PASSWORD}
+    env_file:
+      - .env
