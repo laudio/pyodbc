@@ -1,6 +1,6 @@
 # MSSQL Data Transfer Example
 
-Example project to demonstrate a data pipeline container built using laudio/pyodbc as a base image - that transfers data from one mssql database to another mssql database
+Example project to demonstrate a data pipeline container built using laudio/pyodbc as a base image - that transfers data from one mssql database to another mssql database.
 
 ### Running
 
@@ -14,12 +14,6 @@ Run the example.
 
 ```bash
 $ docker-compose up
-```
-
-For changes 
-
-```bash
-$ docker-compose up --build
 ```
 
 **Output**
