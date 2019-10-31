@@ -1,4 +1,3 @@
-''' Main module. '''
 import sys
 import os
 import time
