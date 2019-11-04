@@ -66,10 +66,19 @@ $ make clean build test
 
 ## Examples
 
+#### Simple Examples
+
+Examples showing a basic use case.
+
 1. [MSSQL Example](examples/app-mssql)
 2. [PostgreSQL Example](examples/app-pg)
-3. [PostgreSQL Data Transfer Example](examples/data-transfer-pg)
-4. [MSSQL Data Transfer Example](examples/data-transfer-mssql)
+
+#### Data Pipelines
+
+Examples illustrating data pipelines using pyodbc.
+
+1. [Data Transfer Example (PostgreSQL)](examples/data-transfer-pg)
+2. [Data Transfer Example (MSSQL)](examples/data-transfer-mssql)
 
 ## License
 
