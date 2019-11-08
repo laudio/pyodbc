@@ -6,6 +6,22 @@ import pyodbc
 
 CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 
+SQL_CREATE_TABLE = '''
+    CREATE TABLE fruits (
+        id INT,
+        name NVARCHAR(50),
+        quantity INT
+    )
+'''
+
+SQL_INSERT_DATA = 'INSERT INTO fruits (id, name, quantity) VALUES (?, ?, ?)'
+
+DATA = [
+    (1, 'Banana', 150),
+    (2, 'Apple', 160),
+    (3, 'Orange', 77)
+]
+
 
 def connect_db():
     ''' Connect to database. '''
@@ -23,14 +39,13 @@ def connect_db():
 def setup_table(cur):
     ''' Create table and populate data. '''
     print('Create a new table for fruits.')
-    cur.execute('CREATE TABLE fruits (id INT, name NVARCHAR(50), quantity INT)')
-    conn.commit()
+    cur.execute(SQL_CREATE_TABLE)
+    cur.commit()
 
     print('Populate fruits data.')
-    cur.execute('INSERT INTO fruits VALUES (1, ?, ?)', ('Banana', 150))
-    cur.execute('INSERT INTO fruits VALUES (2, ?, ?)', ('Orange', 64))
-    cur.execute('INSERT INTO fruits VALUES (3, ?, ?)', ('Apple', 35))
-    conn.commit()
+    for row in DATA:
+        cur.execute(SQL_INSERT_DATA, row)
+    cur.commit()
 
 
 def fetch_data(cur):
