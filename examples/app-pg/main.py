@@ -8,20 +8,22 @@ CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={dat
 
 
 SQL_CREATE_TABLE = '''
-    CREATE TABLE fruits (
+    CREATE TABLE users (
         id INT,
         name VARCHAR(50),
-        quantity INT
+        city VARCHAR(50)
     )
 '''
 
-SQL_INSERT_DATA = 'INSERT INTO fruits (id, name, quantity) VALUES (?, ?, ?)'
+SQL_INSERT_DATA = 'INSERT INTO users (id, name, quantity) VALUES (?, ?, ?)'
 
-DATA = [
-    (1, 'Banana', 150),
-    (2, 'Apple', 160),
-    (3, 'Orange', 77)
-]
+DATA = []
+
+for i in range(int(sys.argv[1])):
+  name = fake.name().encode('utf-8') # data output is in unicode format, convert to utf-8
+  city = fake.city().encode('utf-8')
+  data_set = (i, name, city)
+  DATA.append(data_set)
 
 
 def connect_db():
@@ -39,11 +41,11 @@ def connect_db():
 
 def setup_table(cur):
     ''' Create table and populate data. '''
-    print('Create a new table for fruits.')
+    print('Create a new table for users.')
     cur.execute(SQL_CREATE_TABLE)
     cur.commit()
 
-    print('Populate fruits data.')
+    print('Populate users data.')
     for row in DATA:
         cur.execute(SQL_INSERT_DATA, row)
     cur.commit()
@@ -52,7 +54,7 @@ def setup_table(cur):
 def fetch_data(cur):
     ''' Fetch all data from the table. '''
     print('List of data.')
-    cur.execute('SELECT * FROM fruits')
+    cur.execute('SELECT * FROM users')
 
     return cur.fetchall()
 
@@ -60,10 +62,10 @@ def fetch_data(cur):
 def display_data(rows):
     ''' Print rows in the console. '''
     template = '{:<5} {:<15} {:<10}'
-    print(template.format('ID', 'NAME', 'QUANTITY'))
+    print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
     for row in rows:
-        print(template.format(row.id, row.name, row.quantity))
+        print(template.format(row.id, row.name, row.city))
 
 
 def main():

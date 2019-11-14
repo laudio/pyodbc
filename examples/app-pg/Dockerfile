@@ -5,4 +5,4 @@ WORKDIR /app
 # Copy code to container
 COPY . .
 
-CMD ["python", "main.py"]
+CMD ["python", "main.py", "3"]
