@@ -3,6 +3,9 @@ import sys
 import os
 import time
 import pyodbc
+from faker import Faker
+
+fake = Faker()
 
 CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 
