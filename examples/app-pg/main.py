@@ -4,11 +4,13 @@ import os
 import time
 import pyodbc
 from faker import Faker
+from dotenv import load_dotenv
+
+load_dotenv()
 
 fake = Faker()
 
 CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-
 
 SQL_CREATE_TABLE = '''
     CREATE TABLE users (
@@ -18,15 +20,33 @@ SQL_CREATE_TABLE = '''
     )
 '''
 
-SQL_INSERT_DATA = 'INSERT INTO users (id, name, quantity) VALUES (?, ?, ?)'
+SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
-DATA = []
+def set_env():
+    os.environ[DATA_COUNT] = sys.argv[1]
 
-for i in range(int(sys.argv[1])):
-  name = fake.name().encode('utf-8') # data output is in unicode format, convert to utf-8
-  city = fake.city().encode('utf-8')
-  data_set = (i, name, city)
-  DATA.append(data_set)
+
+data = []
+default_count = int(os.getenv('DATA_COUNT'))
+
+
+
+def create_data(i): 
+    name = fake.name().encode('utf-8') # data output is in unicode format, convert to utf-8
+    city = fake.city().encode('utf-8')
+    data_set = (i, name, city)
+    data.append(data_set)
+
+
+def get_data():
+    if len(sys.argv) == 1:
+        for i in range(default_count):
+            create_data(i)
+        return data
+    else: 
+        for i in range(int(sys.argv[1])):
+            create_data(i)
+        return data
 
 
 def connect_db():
@@ -76,6 +96,7 @@ def main():
     time.sleep(5)  # Wait for database server to fully spawn.
     conn = connect_db()
     cur = conn.cursor()
+    get_data()
 
     setup_table(cur)
     rows = fetch_data(cur)
