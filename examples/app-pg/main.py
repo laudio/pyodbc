@@ -4,9 +4,6 @@ import os
 import time
 import pyodbc
 from faker import Faker
-from dotenv import load_dotenv
-
-load_dotenv()
 
 fake = Faker()
 
@@ -22,31 +19,20 @@ SQL_CREATE_TABLE = '''
 
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
-def set_env():
-    os.environ[DATA_COUNT] = sys.argv[1]
-
-
 data = []
-default_count = int(os.getenv('DATA_COUNT'))
-
-
-
-def create_data(i): 
-    name = fake.name().encode('utf-8') # data output is in unicode format, convert to utf-8
-    city = fake.city().encode('utf-8')
-    data_set = (i, name, city)
-    data.append(data_set)
 
 
 def get_data():
-    if len(sys.argv) == 1:
-        for i in range(default_count):
-            create_data(i)
-        return data
-    else: 
-        for i in range(int(sys.argv[1])):
-            create_data(i)
-        return data
+    """Return data to populate the table"""
+
+    RECORD_COUNT = 10000
+
+    for i in range(RECORD_COUNT):
+        name = fake.name().encode('utf-8')
+        city = fake.city().encode('utf-8')
+        data_set = (i, name, city)
+        data.append(data_set)
+    return data
 
 
 def connect_db():
@@ -69,7 +55,7 @@ def setup_table(cur):
     cur.commit()
 
     print('Populate users data.')
-    for row in DATA:
+    for row in data:
         cur.execute(SQL_INSERT_DATA, row)
     cur.commit()
 
