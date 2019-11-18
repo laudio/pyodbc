@@ -20,12 +20,11 @@ SQL_CREATE_TABLE = '''
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
 data = []
+RECORD_COUNT = 10000
 
 
 def get_data():
     """Return data to populate the table"""
-
-    RECORD_COUNT = 10000
 
     for i in range(RECORD_COUNT):
         name = fake.name().encode('utf-8')
