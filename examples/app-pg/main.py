@@ -4,6 +4,8 @@ import os
 import time
 import pyodbc
 from faker import Faker
+from typing import List, Tuple
+
 
 fake = Faker()
 
@@ -19,19 +21,15 @@ SQL_CREATE_TABLE = '''
 
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
-data = []
 RECORD_COUNT = 10000
+data = get_data(RECORD_COUNT)
 
 
-def get_data():
-    """Return data to populate the table"""
+def get_data(count: int) -> List[Tuple]:
+    ''' Generate user data. '''
+    row = lambda n: (n + 1, fake.name().encode('utf-8'), fake.city().encode('utf-8'))
 
-    for i in range(RECORD_COUNT):
-        name = fake.name().encode('utf-8')
-        city = fake.city().encode('utf-8')
-        data_set = (i, name, city)
-        data.append(data_set)
-    return data
+    return [row(i) for i in range(count)]
 
 
 def connect_db():
@@ -81,7 +79,7 @@ def main():
     time.sleep(5)  # Wait for database server to fully spawn.
     conn = connect_db()
     cur = conn.cursor()
-    get_data()
+    print(type(cur))
 
     setup_table(cur)
     rows = fetch_data(cur)
