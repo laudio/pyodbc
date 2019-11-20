@@ -7,8 +7,6 @@ from faker import Faker
 from typing import List, Tuple
 
 
-fake = Faker()
-
 CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 
 SQL_CREATE_TABLE = '''
@@ -22,11 +20,11 @@ SQL_CREATE_TABLE = '''
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
 RECORD_COUNT = 10000
-data = get_data(RECORD_COUNT)
 
 
 def get_data(count: int) -> List[Tuple]:
     ''' Generate user data. '''
+    fake = Faker()
     row = lambda n: (n + 1, fake.name().encode('utf-8'), fake.city().encode('utf-8'))
 
     return [row(i) for i in range(count)]
@@ -45,7 +43,7 @@ def connect_db():
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def setup_table(cur):
+def setup_table(cur, data):
     ''' Create table and populate data. '''
     print('Create a new table for users.')
     cur.execute(SQL_CREATE_TABLE)
@@ -79,9 +77,9 @@ def main():
     time.sleep(5)  # Wait for database server to fully spawn.
     conn = connect_db()
     cur = conn.cursor()
-    print(type(cur))
+    data = get_data(RECORD_COUNT)
 
-    setup_table(cur)
+    setup_table(cur, data)
     rows = fetch_data(cur)
     display_data(rows)
 
