@@ -81,7 +81,8 @@ def get_data(count: int) -> List[Tuple]:
     return [row(i) for i in range(count)]
 
 
-def insert_source_db(data):
+def insert_source_db(data: List):
+    ''' Insert query for generating data on source table'''
     for i in data: 
         with open('sql/source_db_setup.sql', 'a') as file:
             file.write(SQL_INSERT_DATA.format(
@@ -117,7 +118,7 @@ def display_users(db_cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
     transfered_data = db_cursor.fetchall()
-    template = '{:<5} {:<15} {:<10}'
+    template = '{:<5} {:<20} {:<10}'
 
     print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
