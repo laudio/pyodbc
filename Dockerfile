@@ -21,6 +21,7 @@ RUN \
   sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/' /etc/odbcinst.ini > /tmp/temp.ini && \
   mv -f /tmp/temp.ini /etc/odbcinst.ini && \
   # Install dependencies
+  pip install --upgrade pip && \
   pip install -r requirements.txt && rm requirements.txt && \
   # Cleanup build dependencies
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync unixodbc-dev build-essential gnupg2 && \
