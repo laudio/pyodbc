@@ -98,7 +98,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
 
     print(f'Transferring users data to destination database.')
     for row in rows:
-        dest_db_cursor.execute('INSERT INTO users VALUES (?, ?, ?)', (row.id, row.name, row.city))
+        dest_db_cursor.execute(SQL_INSERT_DATA, (row.id, row.name, row.city))
     dest_db_conn.commit()
     
     print(f"Transferred {len(rows)} rows of users data from source database to destination database.")
