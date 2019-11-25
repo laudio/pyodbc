@@ -5,7 +5,7 @@ import pyodbc
 from faker import Faker
 
 
-CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={{{password}}};'
+CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 RECORD_COUNT = 10000
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
@@ -71,9 +71,10 @@ def populate_data(count: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
-    
+
     for i in range(count):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
+
 
 def extract_sql(file: str):
     ''' Reads an SQL file and returns it's contents. '''
@@ -101,9 +102,9 @@ def display_users(db_cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
     transferred_data = db_cursor.fetchall()
-    template = '{:<5} {:<20} {:<10}'
+    template = '{:<5} {:<15} {:<10}'
 
-    print(template.format('ID', 'NAME', 'city'))
+    print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
 
     for row in transferred_data:
