@@ -29,7 +29,7 @@ def main():
             print(f'Create users table and populate data in source database.')
 
             source_db_cur.execute(extract_sql('sql/source_db_setup.sql'))
-            data = get_data(RECORD_COUNT, source_db_cur)
+            populate_data(RECORD_COUNT, source_db_cur)
             source_db_conn.commit()
 
             print(f'Create users table in destination database.')
@@ -73,7 +73,7 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 
-def get_data(count: int, db_cursor) -> List[Tuple]:
+def populate_data(count: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
