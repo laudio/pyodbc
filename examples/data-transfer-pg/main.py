@@ -8,8 +8,8 @@ from typing import List, Tuple
 
 
 CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-RECORD_COUNT = 10000
-SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES ({id}, {name}, {city});'
+RECORD_COUNT = 10
+SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 
 def main():
@@ -18,8 +18,6 @@ def main():
     time.sleep(5)
 
     source_db_conn, dest_db_conn = connect_to_databases()
-    data = get_data(RECORD_COUNT)
-    load_data  = insert_source_db(data)
 
     with source_db_conn, dest_db_conn:
 
@@ -29,7 +27,9 @@ def main():
         with source_db_cur, dest_db_cur:
 
             print(f'Create users table and populate data in source database.')
+
             source_db_cur.execute(extract_sql('sql/source_db_setup.sql'))
+            data = get_data(RECORD_COUNT, source_db_cur)
             source_db_conn.commit()
 
             print(f'Create users table in destination database.')
@@ -73,23 +73,13 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 
-def get_data(count: int) -> List[Tuple]:
+def get_data(count: int, db_cursor) -> List[Tuple]:
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
-
-    return [row(i) for i in range(count)]
-
-
-def insert_source_db(data: List):
-    ''' Insert query for generating data on source table'''
-    for i in data: 
-        with open('sql/source_db_setup.sql', 'a') as file:
-            file.write(SQL_INSERT_DATA.format(
-            id = i[0], 
-            name = i[1], 
-            city = i[2]
-        )+ '\n')
+    
+    for i in range(count):
+        db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
 def extract_sql(file: str):
