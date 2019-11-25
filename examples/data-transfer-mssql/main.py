@@ -12,7 +12,7 @@ SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 def main():
     ''' App entrypoint. '''
     # Wait for mssql database server to fully spawn.
-    time.sleep(5)
+    time.sleep(20)
 
     source_db_conn, dest_db_conn = connect_to_databases()
 
@@ -67,12 +67,12 @@ def get_connection(db_host, db_name, db_username, db_password):
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def populate_data(count: int, db_cursor):
+def populate_data(RECORD_COUNT: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
 
-    for i in range(count):
+    for i in range(RECORD_COUNT):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
