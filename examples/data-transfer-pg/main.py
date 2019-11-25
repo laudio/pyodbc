@@ -8,7 +8,7 @@ from typing import List, Tuple
 
 
 CONNECTION_STRING = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-RECORD_COUNT = 10
+RECORD_COUNT = 10000
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 
