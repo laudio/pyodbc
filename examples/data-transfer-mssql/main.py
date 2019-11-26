@@ -100,7 +100,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
 
 def display_users(db_cursor):
     ''' Displays users data. '''
-    db_cursor.execute('SELECT * FROM users')
+    db_cursor.execute('SELECT * FROM users ORDER BY id')
     transferred_data = db_cursor.fetchall()
     template = '{:<5} {:<15} {:<10}'
 
