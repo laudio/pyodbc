@@ -2,14 +2,17 @@ import sys
 import os
 import time
 import pyodbc
+from faker import Faker
+
 
 CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-
+RECORD_COUNT = 10000
+SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 def main():
     ''' App entrypoint. '''
     # Wait for mssql database server to fully spawn.
-    time.sleep(5)
+    time.sleep(20)
 
     source_db_conn, dest_db_conn = connect_to_databases()
 
@@ -18,18 +21,19 @@ def main():
         dest_db_cur = dest_db_conn.cursor()
 
         with source_db_cur, dest_db_cur:
-            print('Create fruits table and populate data in source database.')
+            print('Create users table and populate data in source database.')
             source_db_cur.execute(extract_sql('sql/source_db_setup.sql'))
+            populate_data(RECORD_COUNT, source_db_cur)
             source_db_conn.commit()
 
-            print('Create fruits table in destination database.')
+            print('Create users table in destination database.')
             dest_db_cur.execute(extract_sql('sql/dest_db_setup.sql'))
             dest_db_conn.commit()
 
             transfer_data(source_db_cur, dest_db_cur, dest_db_conn)
 
-            print('Display fruits data of destination database.')
-            display_fruits(dest_db_cur)
+            print('Display users data of destination database.')
+            display_users(dest_db_cur)
 
 
 def connect_to_databases():
@@ -63,6 +67,15 @@ def get_connection(db_host, db_name, db_username, db_password):
     return pyodbc.connect(connection_str, timeout=300)
 
 
+def populate_data(RECORD_COUNT: int, db_cursor):
+    ''' Generate user data. '''
+    fake = Faker()
+    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
+
+    for i in range(RECORD_COUNT):
+        db_cursor.execute(SQL_INSERT_DATA, row(i))
+
+
 def extract_sql(file: str):
     ''' Reads an SQL file and returns it's contents. '''
     with open(file, 'rt') as file:
@@ -72,30 +85,30 @@ def extract_sql(file: str):
 
 
 def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
-    ''' Extracts fruits data from source database and stores them in destination database. '''
-    print('Extracting fruits data from source database.')
-    source_db_cursor.execute('SELECT * FROM fruits')
+    ''' Extracts users data from source database and stores them in destination database. '''
+    print('Extracting users data from source database.')
+    source_db_cursor.execute('SELECT * FROM users')
     rows = source_db_cursor.fetchall()
 
-    print('Transferring fruits data to destination database.')
+    print('Transferring users data to destination database.')
     for row in rows:
-        dest_db_cursor.execute('INSERT INTO fruits VALUES (?, ?, ?)', (row.id, row.name, row.quantity))
+        dest_db_cursor.execute(SQL_INSERT_DATA, (row.id, row.name, row.city))
 
     print(f'{len(rows)} rows transferred\n')
     dest_db_conn.commit()
 
 
-def display_fruits(db_cursor):
-    ''' Displays fruits data. '''
-    db_cursor.execute('SELECT * FROM fruits')
+def display_users(db_cursor):
+    ''' Displays users data. '''
+    db_cursor.execute('SELECT * FROM users ORDER BY id')
     transferred_data = db_cursor.fetchall()
     template = '{:<5} {:<15} {:<10}'
 
-    print(template.format('ID', 'NAME', 'QUANTITY'))
+    print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
 
     for row in transferred_data:
-        print(template.format(row.id, row.name, row.quantity))
+        print(template.format(row.id, row.name, row.city))
 
 
 if __name__ == '__main__':
