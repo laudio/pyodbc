@@ -3,11 +3,12 @@ import os
 import time
 import pyodbc
 from faker import Faker
+from typing import Tuple, Union, List, Callable, IO
 
 
-CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-RECORD_COUNT = 10000
-SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
+CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+RECORD_COUNT: int = 10000
+SQL_INSERT_DATA: str = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 def main():
     ''' App entrypoint. '''
@@ -55,7 +56,7 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 
-def get_connection(db_host, db_name, db_username, db_password):
+def get_connection(db_host, db_name, db_username, db_password) -> IO:
     ''' Create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
@@ -70,13 +71,13 @@ def get_connection(db_host, db_name, db_username, db_password):
 def populate_data(RECORD_COUNT: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
-    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
+    row: Callable[[int], Tuple[int, str, str]] = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
 
     for i in range(RECORD_COUNT):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
-def extract_sql(file: str):
+def extract_sql(file):
     ''' Reads an SQL file and returns it's contents. '''
     with open(file, 'rt') as file:
         contents = file.read()
@@ -88,7 +89,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     ''' Extracts users data from source database and stores them in destination database. '''
     print('Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
-    rows = source_db_cursor.fetchall()
+    rows: Union[List, Tuple] = source_db_cursor.fetchall()
 
     print('Transferring users data to destination database.')
     for row in rows:
