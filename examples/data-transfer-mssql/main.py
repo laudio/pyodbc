@@ -4,6 +4,7 @@ import time
 import pyodbc
 from faker import Faker
 from typing import Tuple, Union, List, Callable, IO
+from pyodbc import Cursor, Connection
 
 
 CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
@@ -37,7 +38,7 @@ def main():
             display_users(dest_db_cur)
 
 
-def connect_to_databases():
+def connect_to_databases() -> Tuple:
     ''' Extracts databases credentials from the environment and returns their connections. '''
     source_db_conn = get_connection(
         os.environ['SOURCE_DB_HOST'],
@@ -56,7 +57,7 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 
-def get_connection(db_host, db_name, db_username, db_password) -> IO:
+def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> IO:
     ''' Create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
@@ -68,7 +69,7 @@ def get_connection(db_host, db_name, db_username, db_password) -> IO:
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def populate_data(RECORD_COUNT: int, db_cursor):
+def populate_data(RECORD_COUNT: int, db_cursor: Cursor) -> None:
     ''' Generate user data. '''
     fake = Faker()
     row: Callable[[int], Tuple[int, str, str]] = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
@@ -77,7 +78,7 @@ def populate_data(RECORD_COUNT: int, db_cursor):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
-def extract_sql(file):
+def extract_sql(file: str):
     ''' Reads an SQL file and returns it's contents. '''
     with open(file, 'rt') as file:
         contents = file.read()
@@ -85,7 +86,7 @@ def extract_sql(file):
     return contents
 
 
-def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
+def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn: Connection) -> None:
     ''' Extracts users data from source database and stores them in destination database. '''
     print('Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
@@ -99,7 +100,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     dest_db_conn.commit()
 
 
-def display_users(db_cursor):
+def display_users(db_cursor: Cursor) -> None:
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
     transferred_data = db_cursor.fetchall()
