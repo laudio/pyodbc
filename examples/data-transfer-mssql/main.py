@@ -90,7 +90,7 @@ def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn
     ''' Extracts users data from source database and stores them in destination database. '''
     print('Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
-    rows: Union[List, Tuple] = source_db_cursor.fetchall()
+    rows = source_db_cursor.fetchall()
 
     print('Transferring users data to destination database.')
     for row in rows:
