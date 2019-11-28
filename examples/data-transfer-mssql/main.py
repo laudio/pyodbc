@@ -72,7 +72,7 @@ def get_connection(db_host: str, db_name: str, db_username: str, db_password: st
 def populate_data(RECORD_COUNT: int, db_cursor: Cursor) -> None:
     ''' Generate user data. '''
     fake = Faker()
-    row: Callable[[int], Tuple[int, str, str]] = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
+    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
 
     for i in range(RECORD_COUNT):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
