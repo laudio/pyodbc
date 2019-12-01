@@ -1,24 +1,26 @@
 ''' Utilities for test. '''
 
 import os
+from typing import Dict
 import pyodbc
-
+from pyodbc import Connection
+from typing import List
 from logging import getLogger, basicConfig, DEBUG
 
 basicConfig(level='DEBUG')
-logger = getLogger()
+logger: str = getLogger()
 
 # Database Connections
-PG = 'pg'
-MSSQL = 'mssql'
+PG: str = 'pg'
+MSSQL: str = 'mssql'
 
 # Database Drivers
-drivers = {}
+drivers: Dict[str] = {}
 drivers[PG] = '{PostgreSQL Unicode}'
 drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
 
 
-def get_conn_str(db):
+def get_conn_str(db: str) -> str:
     ''' Get database connection string for the provided driver. '''
     conn_str = ';'.join([
         'DRIVER={driver}',
@@ -54,7 +56,7 @@ def get_conn_str(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
 
 
-def connect(driver):
+def connect(driver: str) -> Connection:
     ''' Connect to the database server. '''
     connection_str = get_conn_str(driver)
 
@@ -63,7 +65,7 @@ def connect(driver):
     return pyodbc.connect(connection_str)
 
 
-def exec_query(db, sql):
+def exec_query(db: str, sql: str) -> List:
     ''' Execute a test SQL query on the given database. '''
     connection = connect(db)
 
@@ -71,7 +73,7 @@ def exec_query(db, sql):
     logger.debug('Creating a new cursor.')
     cursor = connection.cursor()
     logger.debug('Executing SQL query.')
-    result = cursor.execute(sql).fetchval()
+    result = cursor.execute(sql).fetchall()
     logger.debug('Received result set.')
 
     return result
