@@ -3,7 +3,7 @@ import os
 import time
 import pyodbc
 from faker import Faker
-from typing import Tuple, Union, List, Callable, IO
+from typing import Tuple
 from pyodbc import Cursor, Connection
 
 
@@ -57,7 +57,7 @@ def connect_to_databases() -> Tuple:
     return source_db_conn, dest_db_conn
 
 
-def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> IO:
+def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> Connection:
     ''' Create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
@@ -78,7 +78,7 @@ def populate_data(RECORD_COUNT: int, db_cursor: Cursor):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
-def extract_sql(file: str):
+def extract_sql(file: str) -> str:
     ''' Reads an SQL file and returns it's contents. '''
     with open(file, 'rt') as file:
         contents = file.read()
