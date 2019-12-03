@@ -65,7 +65,8 @@ def connect(db):
 
     logger.debug(
         'Connecting to database server [{}, driver={}].'.format(
-            db, drivers[db])
+            db, drivers[db]
+        )
     )
 
     return pyodbc.connect(connection_str)
