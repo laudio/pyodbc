@@ -5,10 +5,10 @@ FROM python:3.7-slim AS base
 
 COPY requirements.txt .
 
-ARG FILE_NAME='mysql-connector-odbc-8.0.18-linux-glibc2.12-x86-64bit'
 # Setup dependencies for pyodbc
 RUN \
   export ACCEPT_EULA='Y' && \
+  export FILE_NAME='mysql-connector-odbc-8.0.18-linux-glibc2.12-x86-64bit' && \
   apt-get update && \
   apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
   #
