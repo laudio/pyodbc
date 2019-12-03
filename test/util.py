@@ -19,58 +19,54 @@ drivers[PG] = '{PostgreSQL Unicode}'
 drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
 drivers[MYSQL] = '{MySQL ODBC 8.0 Driver}'
 
+# Connection strings
+CONN_STR = ';'.join([
+    'DRIVER={driver}',
+    'SERVER={server}',
+    'PORT={port}',
+    'DATABASE={database}',
+    'UID={username}',
+    'PWD={password}'
+])
 
-def get_conn_str(db):
-    ''' Get database connection string for the provided driver. '''
-    conn_str = ';'.join([
-        'DRIVER={driver}',
-        'SERVER={server}',
-        'PORT={port}',
-        'DATABASE={database}',
-        'UID={username}',
-        'PWD={password}'
-    ])
-    driver = drivers[db]
+constr = {}
+constr[PG] = lambda: CONN_STR.format(
+    driver=drivers[PG],
+    server=os.environ['TEST_PG_DB_HOST'],
+    database=os.environ['TEST_PG_DB_NAME'],
+    username=os.environ['TEST_PG_DB_USER'],
+    password=os.environ['TEST_PG_DB_PASSWORD'],
+    port=5432
+)
+constr[MSSQL] = lambda: CONN_STR.format(
+    driver=drivers[MSSQL],
+    server=os.environ['TEST_MSSQL_DB_HOST'],
+    database=os.environ['TEST_MSSQL_DB_NAME'],
+    username=os.environ['TEST_MSSQL_DB_USER'],
+    password=os.environ['TEST_MSSQL_DB_PASSWORD'],
+    port=1433
+)
+constr[MYSQL] = lambda: CONN_STR.format(
+    driver=drivers[MYSQL],
+    server=os.environ['TEST_MYSQL_DB_HOST'],
+    database=os.environ['TEST_MYSQL_DB_NAME'],
+    username=os.environ['TEST_MYSQL_DB_USER'],
+    password=os.environ['TEST_MYSQL_DB_PASSWORD'],
+    port=3306
+)
 
-    if db == PG:
-        return conn_str.format(
-            driver=driver,
-            server=os.environ['TEST_PG_DB_HOST'],
-            database=os.environ['TEST_PG_DB_NAME'],
-            username=os.environ['TEST_PG_DB_USER'],
-            password=os.environ['TEST_PG_DB_PASSWORD'],
-            port=5432
-        )
 
-    elif db == MSSQL:
-        return conn_str.format(
-            driver=driver,
-            server=os.environ['TEST_MSSQL_DB_HOST'],
-            database=os.environ['TEST_MSSQL_DB_NAME'],
-            username=os.environ['TEST_MSSQL_DB_USER'],
-            password=os.environ['TEST_MSSQL_DB_PASSWORD'],
-            port=1433
-        )
-
-    elif db == MYSQL:
-        return conn_str.format(
-            driver=driver,
-            server=os.environ['TEST_MYSQL_DB_HOST'],
-            database=os.environ['TEST_MYSQL_DB_NAME'],
-            username=os.environ['TEST_MYSQL_DB_USER'],
-            password=os.environ['TEST_MYSQL_DB_PASSWORD'],
-            port=3306
-        )
-
-    else:
+def connect(db):
+    ''' Connect to the database server. '''
+    if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
 
+    connection_str = constr[db]
 
-def connect(driver):
-    ''' Connect to the database server. '''
-    connection_str = get_conn_str(driver)
-
-    logger.debug('Connecting to Database Server [driver={}].'.format(driver))
+    logger.debug(
+        'Connecting to Database Server [{}, driver={}].'.format(
+            db, drivers[db])
+    )
 
     return pyodbc.connect(connection_str)
 
@@ -79,7 +75,7 @@ def exec_query(db, sql):
     ''' Execute a test SQL query on the given database. '''
     connection = connect(db)
 
-    logger.debug('Connection estabilished with database - {}.'.format(db))
+    logger.debug('Connection established with database - {}.'.format(db))
     logger.debug('Creating a new cursor.')
     cursor = connection.cursor()
     logger.debug('Executing SQL query.')
