@@ -64,7 +64,7 @@ def connect(db):
     connection_str = constr[db]
 
     logger.debug(
-        'Connecting to Database Server [{}, driver={}].'.format(
+        'Connecting to database server [{}, driver={}].'.format(
             db, drivers[db])
     )
 
