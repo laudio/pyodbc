@@ -26,27 +26,27 @@ CONN_STR = ';'.join([
 constr = {}
 constr[PG] = lambda: CONN_STR.format(
     driver='{PostgreSQL Unicode}',
+    port=5432,
     server=os.environ['TEST_PG_DB_HOST'],
     database=os.environ['TEST_PG_DB_NAME'],
     username=os.environ['TEST_PG_DB_USER'],
-    password=os.environ['TEST_PG_DB_PASSWORD'],
-    port=5432
+    password=os.environ['TEST_PG_DB_PASSWORD']
 )
 constr[MSSQL] = lambda: CONN_STR.format(
     driver='{ODBC Driver 17 for SQL Server}',
+    port=1433,
     server=os.environ['TEST_MSSQL_DB_HOST'],
     database=os.environ['TEST_MSSQL_DB_NAME'],
     username=os.environ['TEST_MSSQL_DB_USER'],
-    password=os.environ['TEST_MSSQL_DB_PASSWORD'],
-    port=1433
+    password=os.environ['TEST_MSSQL_DB_PASSWORD']
 )
 constr[MYSQL] = lambda: CONN_STR.format(
     driver='{MySQL ODBC 8.0 Driver}',
+    port=3306,
     server=os.environ['TEST_MYSQL_DB_HOST'],
     database=os.environ['TEST_MYSQL_DB_NAME'],
     username=os.environ['TEST_MYSQL_DB_USER'],
-    password=os.environ['TEST_MYSQL_DB_PASSWORD'],
-    port=3306
+    password=os.environ['TEST_MYSQL_DB_PASSWORD']
 )
 
 
