@@ -30,7 +30,7 @@ RUN \
   pip install --upgrade pip && \
   pip install -r requirements.txt && rm requirements.txt && \
   # Cleanup build dependencies
-  rm -rf ${MYSQL_CONNECTOR} ${MYSQL_CONNECTOR}.tar ${MYSQL_CONNECTOR}.tar.gz && \
+  rm -rf ${MYSQL_CONNECTOR}* && \
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync unixodbc-dev build-essential gnupg2 && \
   apt-get autoremove -y && apt-get autoclean -y
 
