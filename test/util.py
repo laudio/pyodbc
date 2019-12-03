@@ -50,7 +50,7 @@ constr[MYSQL] = lambda: CONN_STR.format(
 )
 
 
-def connect(db):
+def connect(db: str):
     ''' Connect to the database server. '''
     if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
