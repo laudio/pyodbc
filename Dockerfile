@@ -17,10 +17,8 @@ RUN \
   curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
   curl -L -o ${MYSQL_CONNECTOR}.tar.gz https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/${MYSQL_CONNECTOR}.tar.gz && \
   apt-get update && \
-  gunzip ${MYSQL_CONNECTOR}.tar.gz && \
-  tar xvf ${MYSQL_CONNECTOR}.tar && \
-  cp ${MYSQL_CONNECTOR}/bin/* /usr/local/bin && \
-  cp ${MYSQL_CONNECTOR}/lib/* /usr/local/lib && \
+  gunzip ${MYSQL_CONNECTOR}.tar.gz && tar xvf ${MYSQL_CONNECTOR}.tar && \
+  cp ${MYSQL_CONNECTOR}/bin/* /usr/local/bin && cp ${MYSQL_CONNECTOR}/lib/* /usr/local/lib && \
   myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" && \
   myodbc-installer -a -d -n "MySQL ODBC 8.0" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   apt-get install -y msodbcsql17 odbc-postgresql && \
