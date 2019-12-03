@@ -61,7 +61,7 @@ def connect(db):
     if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
 
-    connection_str = constr[db]
+    connection_str = constr[db]()
 
     logger.debug(
         'Connecting to database server [{}, driver={}].'.format(
