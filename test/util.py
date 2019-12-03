@@ -13,12 +13,6 @@ PG = 'pg'
 MSSQL = 'mssql'
 MYSQL = 'mysql'
 
-# Database Drivers
-drivers = {}
-drivers[PG] = '{PostgreSQL Unicode}'
-drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
-drivers[MYSQL] = '{MySQL ODBC 8.0 Driver}'
-
 # Connection strings
 CONN_STR = ';'.join([
     'DRIVER={driver}',
@@ -31,7 +25,7 @@ CONN_STR = ';'.join([
 
 constr = {}
 constr[PG] = lambda: CONN_STR.format(
-    driver=drivers[PG],
+    driver='{PostgreSQL Unicode}',
     server=os.environ['TEST_PG_DB_HOST'],
     database=os.environ['TEST_PG_DB_NAME'],
     username=os.environ['TEST_PG_DB_USER'],
@@ -39,7 +33,7 @@ constr[PG] = lambda: CONN_STR.format(
     port=5432
 )
 constr[MSSQL] = lambda: CONN_STR.format(
-    driver=drivers[MSSQL],
+    driver='{ODBC Driver 17 for SQL Server}',
     server=os.environ['TEST_MSSQL_DB_HOST'],
     database=os.environ['TEST_MSSQL_DB_NAME'],
     username=os.environ['TEST_MSSQL_DB_USER'],
@@ -47,7 +41,7 @@ constr[MSSQL] = lambda: CONN_STR.format(
     port=1433
 )
 constr[MYSQL] = lambda: CONN_STR.format(
-    driver=drivers[MYSQL],
+    driver='{MySQL ODBC 8.0 Driver}',
     server=os.environ['TEST_MYSQL_DB_HOST'],
     database=os.environ['TEST_MYSQL_DB_NAME'],
     username=os.environ['TEST_MYSQL_DB_USER'],
@@ -63,11 +57,7 @@ def connect(db):
 
     connection_str = constr[db]()
 
-    logger.debug(
-        'Connecting to database server [{}, driver={}].'.format(
-            db, drivers[db]
-        )
-    )
+    logger.debug('Connecting to database server [{}].'.format(db))
 
     return pyodbc.connect(connection_str)
 
