@@ -11,11 +11,13 @@ logger = getLogger()
 # Database Connections
 PG = 'pg'
 MSSQL = 'mssql'
+MYSQL = 'mysql'
 
 # Database Drivers
 drivers = {}
 drivers[PG] = '{PostgreSQL Unicode}'
 drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
+drivers[MYSQL] = '{MySQL ODBC 8.0 Driver}'
 
 
 def get_conn_str(db):
@@ -48,6 +50,16 @@ def get_conn_str(db):
             username=os.environ['TEST_MSSQL_DB_USER'],
             password=os.environ['TEST_MSSQL_DB_PASSWORD'],
             port=1433
+        )
+
+    elif db == MYSQL:
+        return conn_str.format(
+            driver=driver,
+            server=os.environ['TEST_MYSQL_DB_HOST'],
+            database=os.environ['TEST_MYSQL_DB_NAME'],
+            username=os.environ['TEST_MYSQL_DB_USER'],
+            password=os.environ['TEST_MYSQL_DB_PASSWORD'],
+            port=3306
         )
 
     else:
