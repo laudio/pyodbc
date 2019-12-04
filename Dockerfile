@@ -44,4 +44,4 @@ COPY requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 COPY test ./test
 
-CMD ["pytest", "-v"]
+CMD pylint -v -E **/*.py && pytest -v
