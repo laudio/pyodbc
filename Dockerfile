@@ -45,3 +45,12 @@ RUN pip install -r requirements-dev.txt
 COPY test ./test
 
 CMD pylint -v -E **/*.py && pytest -v
+
+# STAGE: lint-examples
+# --------------------
+# Image usesd to lint examples.
+FROM test AS lint-examples
+
+COPY examples ./examples
+
+CMD pylint -v -E **/*.py
