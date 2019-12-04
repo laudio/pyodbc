@@ -40,10 +40,8 @@ script:
   - sleep 20s
 
   # Run tests
-  - make test
-
   # Publish image to registry if merged into master.
-  - ./release.sh
+  - make test && ./release.sh
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
