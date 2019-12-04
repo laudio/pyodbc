@@ -42,6 +42,7 @@ script:
   # Run tests
   # Publish image to registry if merged into master.
   - make test && ./release.sh
+  - make lint-examples
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
