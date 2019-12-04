@@ -34,14 +34,20 @@ RUN \
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync unixodbc-dev build-essential gnupg2 && \
   apt-get autoremove -y && apt-get autoclean -y
 
+# STAGE: dev
+# ----------
+# Intermediate image used to install dependencies.
+FROM base AS dev
+
+COPY requirements-dev.txt .
+RUN pip install -r requirements-dev.txt
+
 # STAGE: test
 # -----------
 # Image used for running tests.
-FROM base AS test
+FROM dev AS test
 
 WORKDIR /test
-COPY requirements-dev.txt .
-RUN pip install -r requirements-dev.txt
 COPY test ./test
 
 CMD pylint -v -E **/*.py && pytest -v
@@ -49,8 +55,7 @@ CMD pylint -v -E **/*.py && pytest -v
 # STAGE: lint-examples
 # --------------------
 # Image used to lint examples.
-FROM test AS lint-examples
+FROM dev AS lint-examples
 
 COPY examples ./examples
-
-CMD pylint -v -E **/*.py
+CMD pylint -v -E ./examples/**/*.py
