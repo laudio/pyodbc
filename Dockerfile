@@ -48,7 +48,7 @@ CMD pylint -v -E **/*.py && pytest -v
 
 # STAGE: lint-examples
 # --------------------
-# Image usesd to lint examples.
+# Image used to lint examples.
 FROM test AS lint-examples
 
 COPY examples ./examples
