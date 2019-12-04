@@ -10,8 +10,8 @@ RECORD_COUNT = 10000
 SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 
-def m():
-    ''' App entrypoint.
+def main():
+    ''' App entrypoint. '''
     # Wait for mssql database server to fully spawn.
     time.sleep(20)
 
@@ -71,7 +71,7 @@ def get_connection(db_host, db_name, db_username, db_password):
 def populate_data(RECORD_COUNT: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
-    def row(n): return (n + 1, repr(fake.name()), repr(fake.city()))
+    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
 
     for i in range(RECORD_COUNT):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
