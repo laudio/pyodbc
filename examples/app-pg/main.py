@@ -2,10 +2,11 @@
 import sys
 import os
 import time
-import pyodbc
-from faker import Faker
 from typing import List, Tuple
+
+import pyodbc
 from pyodbc import Cursor, Connection
+from faker import Faker
 
 
 CONNECTION_STRING: str = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
