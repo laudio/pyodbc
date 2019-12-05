@@ -58,4 +58,5 @@ CMD pylint -v -E **/*.py && pytest -v
 FROM dev AS lint-examples
 
 COPY examples ./examples
-CMD pylint -v -E ./examples/**/*.py
+RUN for f in examples/*/requirements.txt; do pip install -r "$f"; done
+CMD pylint -v -E examples/**/*.py
