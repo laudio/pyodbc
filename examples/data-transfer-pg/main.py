@@ -2,14 +2,17 @@
 import os
 import sys
 import time
-import pyodbc
-from faker import Faker
 from typing import Tuple
+
+import pyodbc
 from pyodbc import Cursor, Connection
+from faker import Faker
 
 
 CONNECTION_STRING: str = 'DRIVER={{PostgreSQL Unicode}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+
 RECORD_COUNT: int = 10000
+
 SQL_INSERT_DATA: str = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
 
 
@@ -52,6 +55,7 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str) -> C
         username=db_user,
         password=db_password
     )
+    
     return pyodbc.connect(connection_str, timeout=300);
 
 
