@@ -91,7 +91,10 @@ def extract_sql(file: str):
 
 
 def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
-    ''' Extracts users data from source database and stores them in destination database.'''
+    '''
+    Extracts users data from source database and 
+    stores them in destination database.
+    '''
     print(f'Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
     rows = source_db_cursor.fetchall()
@@ -102,19 +105,20 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     dest_db_conn.commit()
 
     print(
-        f"Transferred {len(rows)} rows of users data from source database to destination database.")
+        f'Transferred {len(rows)} rows of users data from source database to destination database.'
+    )
 
 
 def display_users(db_cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
-    transfered_data = db_cursor.fetchall()
+    transferred_data = db_cursor.fetchall()
     template = '{:<5} {:<20} {:<10}'
 
     print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
 
-    for row in transfered_data:
+    for row in transferred_data:
         print(template.format(row.id, row.name, row.city))
 
 
