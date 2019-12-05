@@ -1,6 +1,6 @@
 ''' Utilities for test. '''
 import os
-from typing import Set, List
+from typing import Dict, List
 from logging import getLogger, basicConfig, DEBUG
 
 import pyodbc
@@ -25,7 +25,7 @@ CONN_STR: str = ';'.join([
     'PWD={password}'
 ])
 
-constr: Set[str] = {}
+constr: Dict = {}
 constr[PG] = lambda: CONN_STR.format(
     driver='{PostgreSQL Unicode}',
     port=5432,
@@ -34,6 +34,7 @@ constr[PG] = lambda: CONN_STR.format(
     username=os.environ['TEST_PG_DB_USER'],
     password=os.environ['TEST_PG_DB_PASSWORD']
 )
+
 constr[MSSQL] = lambda: CONN_STR.format(
     driver='{ODBC Driver 17 for SQL Server}',
     port=1433,
@@ -42,6 +43,7 @@ constr[MSSQL] = lambda: CONN_STR.format(
     username=os.environ['TEST_MSSQL_DB_USER'],
     password=os.environ['TEST_MSSQL_DB_PASSWORD']
 )
+
 constr[MYSQL] = lambda: CONN_STR.format(
     driver='{MySQL ODBC 8.0 Driver}',
     port=3306,
