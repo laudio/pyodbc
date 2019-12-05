@@ -11,13 +11,12 @@ basicConfig(level='DEBUG')
 logger: str = getLogger()
 
 # Database Connections
-
-PG = 'pg'
-MSSQL = 'mssql'
-MYSQL = 'mysql'
+PG: str = 'pg'
+MSSQL: str = 'mssql'
+MYSQL: str = 'mysql'
 
 # Connection strings
-CONN_STR = ';'.join([
+CONN_STR: str = ';'.join([
     'DRIVER={driver}',
     'SERVER={server}',
     'PORT={port}',
@@ -26,7 +25,7 @@ CONN_STR = ';'.join([
     'PWD={password}'
 ])
 
-constr = {}
+constr: Set[str] = {}
 constr[PG] = lambda: CONN_STR.format(
     driver='{PostgreSQL Unicode}',
     port=5432,
@@ -53,7 +52,7 @@ constr[MYSQL] = lambda: CONN_STR.format(
 )
 
 
-def connect(db: str):
+def connect(db: str) -> Connection:
     ''' Connect to the database server. '''
     if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
