@@ -42,7 +42,7 @@ def main():
             display_users(dest_db_cur)
 
 
-def get_connection(host: str, db_name: str, db_user: str, db_password: str): 
+def get_connection(host: str, db_name: str, db_user: str, db_password: str):
     ''' Initiates and returns connection of a database.'''
     print(f'Establishing postgres database connection to {host}.')
     connection_str = CONNECTION_STRING.format(
@@ -51,24 +51,24 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str):
         username=db_user,
         password=db_password
     )
-    return pyodbc.connect(connection_str, timeout=300);
+    return pyodbc.connect(connection_str, timeout=300)
 
 
 def connect_to_databases():
     ''' Extracts databases credentials from the environment and returns their connections.'''
     source_db_conn = get_connection(
-            os.environ['DB1_HOST'], 
-            os.environ['DB1_NAME'], 
-            os.environ['DB1_USERNAME'], 
-            os.environ['DB1_PASSWORD']
-        )
+        os.environ['DB1_HOST'],
+        os.environ['DB1_NAME'],
+        os.environ['DB1_USERNAME'],
+        os.environ['DB1_PASSWORD']
+    )
 
     dest_db_conn = get_connection(
-            os.environ['DB2_HOST'], 
-            os.environ['DB2_NAME'],
-            os.environ['DB2_USERNAME'], 
-            os.environ['DB2_PASSWORD']
-        )
+        os.environ['DB2_HOST'],
+        os.environ['DB2_NAME'],
+        os.environ['DB2_USERNAME'],
+        os.environ['DB2_PASSWORD']
+    )
 
     return source_db_conn, dest_db_conn
 
@@ -76,16 +76,16 @@ def connect_to_databases():
 def populate_data(count: int, db_cursor):
     ''' Generate user data. '''
     fake = Faker()
-    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
-    
+    row = lambda n: (n + 1, fake.format('name'), fake.format('city'))
+
     for i in range(count):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
 def extract_sql(file: str):
     ''' Reads an SQL file and returns it's contents.'''
-    with open (file, 'rt') as file:
-        contents = file.read()  
+    with open(file, 'rt') as file:
+        contents = file.read()
 
     return contents
 
@@ -100,8 +100,9 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     for row in rows:
         dest_db_cursor.execute(SQL_INSERT_DATA, (row.id, row.name, row.city))
     dest_db_conn.commit()
-    
-    print(f"Transferred {len(rows)} rows of users data from source database to destination database.")
+
+    print(
+        f"Transferred {len(rows)} rows of users data from source database to destination database.")
 
 
 def display_users(db_cursor):

@@ -25,7 +25,7 @@ RECORD_COUNT = 10000
 def get_data(count: int) -> List[Tuple]:
     ''' Generate user data. '''
     fake = Faker()
-    row = lambda n: (n + 1, fake.name().encode('utf-8'), fake.city().encode('utf-8'))
+    row = lambda n: (n + 1, fake.format('name'), fake.format('city'))
 
     return [row(i) for i in range(count)]
 
