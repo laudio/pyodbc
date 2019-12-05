@@ -56,7 +56,7 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str) -> C
         password=db_password
     )
     
-    return pyodbc.connect(connection_str, timeout=300);
+    return pyodbc.connect(connection_str, timeout=300)
 
 
 def connect_to_databases() -> Tuple:
