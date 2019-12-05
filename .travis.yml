@@ -33,16 +33,15 @@ script:
   # Build docker images
   - make clean build
 
-  # Spin up a mssql & pg database server containers
+  # Spin up a mssql, pg & mysql database server containers
+  - docker run --name test-mysql-server -e MYSQL_USER=${TEST_MYSQL_DB_USER} -e MYSQL_DATABASE=${TEST_MYSQL_DB_NAME} -e MYSQL_PASSWORD=${TEST_MYSQL_DB_PASSWORD} -d -p 3306:3306 mysql/mysql-server:latest
   - docker run --name test-mssql-server -e ACCEPT_EULA=Y -e SA_PASSWORD=${TEST_MSSQL_DB_PASSWORD} -d -p 1433:1433 microsoft/mssql-server-linux:2017-GA
   - docker run --name test-pg-server -e POSTGRES_USER=${TEST_PG_DB_USER} -e POSTGRES_DB=${TEST_PG_DB_NAME} -e POSTGRES_PASSWORD=${TEST_PG_DB_PASSWORD} -d -p 5432:5432 postgres
-  - sleep 10s
+  - sleep 20s
 
   # Run tests
-  - make test
-
   # Publish image to registry if merged into master.
-  - ./release.sh
+  - make test && ./release.sh
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
@@ -51,3 +50,4 @@ after_script:
   # Stop the running containers
   - docker stop test-mssql-server
   - docker stop test-pg-server
+  - docker stop test-mysql-server
