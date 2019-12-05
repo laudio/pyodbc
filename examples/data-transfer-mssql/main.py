@@ -1,15 +1,20 @@
+''' Main module. '''
 import sys
 import os
 import time
-import pyodbc
-from faker import Faker
 from typing import Tuple
+
+import pyodbc
 from pyodbc import Cursor, Connection
+from faker import Faker
 
 
 CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+
 RECORD_COUNT: int = 10000
+
 SQL_INSERT_DATA: str = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
+
 
 def main():
     ''' App entrypoint. '''
