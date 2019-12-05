@@ -2,10 +2,11 @@
 import sys
 import os
 import time
-import pyodbc
-from faker import Faker
 from typing import List, Tuple
+
+import pyodbc
 from pyodbc import Cursor, Connection
+from faker import Faker
 
 
 CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
@@ -79,7 +80,6 @@ def main():
     conn = connect_db()
     cur = conn.cursor()
     data = get_data(RECORD_COUNT)
-
 
     setup_table(cur, data)
     rows = fetch_data(cur)
