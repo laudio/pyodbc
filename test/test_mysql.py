@@ -1,5 +1,4 @@
 ''' Tests for MySQL. '''
-
 from util import exec_query, MYSQL
 
 
