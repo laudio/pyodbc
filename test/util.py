@@ -1,11 +1,11 @@
 ''' Utilities for test. '''
-
 import os
-from typing import Dict
+from typing import Set, List
+from logging import getLogger, basicConfig, DEBUG
+
 import pyodbc
 from pyodbc import Connection
-from typing import List
-from logging import getLogger, basicConfig, DEBUG
+
 
 basicConfig(level='DEBUG')
 logger: str = getLogger()
@@ -15,7 +15,7 @@ PG: str = 'pg'
 MSSQL: str = 'mssql'
 
 # Database Drivers
-drivers: Dict[str] = {}
+drivers: Set[str] = {}
 drivers[PG] = '{PostgreSQL Unicode}'
 drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
 
@@ -73,7 +73,7 @@ def exec_query(db: str, sql: str) -> List:
     logger.debug('Creating a new cursor.')
     cursor = connection.cursor()
     logger.debug('Executing SQL query.')
-    result = cursor.execute(sql).fetchall()
+    result = cursor.execute(sql).fetchval()
     logger.debug('Received result set.')
 
     return result
