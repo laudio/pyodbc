@@ -1,11 +1,10 @@
 ''' Main module. '''
-import sys
 import os
+import sys
 import time
 from typing import List, Tuple
 
 import pyodbc
-from pyodbc import Cursor, Connection
 from faker import Faker
 
 
@@ -32,7 +31,7 @@ def get_data(count: int) -> List[Tuple]:
     return [row(i) for i in range(count)]
 
 
-def connect_db() -> Connection:
+def connect_db() -> pyodbc.Connection:
     ''' Connect to database. '''
     print('Establishing mssql database connection.')
     connection_str = CONNECTION_STRING.format(
@@ -45,7 +44,7 @@ def connect_db() -> Connection:
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def setup_table(cur: Cursor, data: List):
+def setup_table(cur: pyodbc.Cursor, data: List):
     ''' Create table and populate data. '''
     print('Create a new table for users.')
     cur.execute(SQL_CREATE_TABLE)
@@ -57,7 +56,7 @@ def setup_table(cur: Cursor, data: List):
     cur.commit()
 
 
-def fetch_data(cur: Cursor) -> List:
+def fetch_data(cur: pyodbc.Cursor) -> List:
     ''' Fetch all data from the table. '''
     print('List of data.')
     cur.execute('SELECT * FROM users')
@@ -65,7 +64,7 @@ def fetch_data(cur: Cursor) -> List:
     return cur.fetchall()
 
 
-def display_data(rows: List):
+def display_data(rows: List[Tuple[int, str, str]]):
     ''' Print rows in the console. '''
     template = '{:<5} {:<15} {:<10}'
     print(template.format('ID', 'NAME', 'CITY'))
