@@ -61,18 +61,18 @@ def get_connection(host: str, db_name: str, db_user: str, db_password: str) -> p
 def connect_to_databases() -> Tuple:
     ''' Extracts databases credentials from the environment and returns their connections.'''
     source_db_conn = get_connection(
-            os.environ['DB1_HOST'],
-            os.environ['DB1_NAME'],
-            os.environ['DB1_USERNAME'],
-            os.environ['DB1_PASSWORD']
-        )
+        os.environ['DB1_HOST'],
+        os.environ['DB1_NAME'],
+        os.environ['DB1_USERNAME'],
+        os.environ['DB1_PASSWORD']
+    )
 
     dest_db_conn = get_connection(
-            os.environ['DB2_HOST'],
-            os.environ['DB2_NAME'],
-            os.environ['DB2_USERNAME'],
-            os.environ['DB2_PASSWORD']
-        )
+        os.environ['DB2_HOST'],
+        os.environ['DB2_NAME'],
+        os.environ['DB2_USERNAME'],
+        os.environ['DB2_PASSWORD']
+    )
 
     return source_db_conn, dest_db_conn
 
@@ -88,14 +88,17 @@ def populate_data(count: int, db_cursor: pyodbc.Cursor):
 
 def extract_sql(file: str) -> str:
     ''' Reads an SQL file and returns it's contents.'''
-    with open (file, 'rt') as file:
+    with open(file, 'rt') as file:
         contents = file.read()
 
     return contents
 
 
 def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor, dest_db_conn: pyodbc.Connection):
-    ''' Extracts users data from source database and stores them in destination database.'''
+    '''
+    Extracts users data from source database and 
+    stores them in destination database.
+    '''
     print(f'Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
     rows = source_db_cursor.fetchall()
@@ -111,13 +114,13 @@ def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor
 def display_users(db_cursor: pyodbc.Cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
-    transfered_data = db_cursor.fetchall()
+    transferred_data = db_cursor.fetchall()
     template = '{:<5} {:<20} {:<10}'
 
     print(template.format('ID', 'NAME', 'CITY'))
     print('-' * 32)
 
-    for row in transfered_data:
+    for row in transferred_data:
         print(template.format(row.id, row.name, row.city))
 
 
