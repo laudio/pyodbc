@@ -108,7 +108,7 @@ def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor
         dest_db_cursor.execute(SQL_INSERT_DATA, (row.id, row.name, row.city))
     dest_db_conn.commit()
 
-    print(f"Transferred {len(rows)} rows of users data from source database to destination database.")
+    print(f'Transferred {len(rows)} rows of users data from source database to destination database.')
 
 
 def display_users(db_cursor: pyodbc.Cursor):
