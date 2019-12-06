@@ -80,7 +80,7 @@ def connect_to_databases() -> Tuple:
 def populate_data(count: int, db_cursor: pyodbc.Cursor):
     ''' Generate user data. '''
     fake = Faker()
-    row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
+    row = lambda n: (n + 1, fake.format('name'), fake.format('city'))
 
     for i in range(count):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
