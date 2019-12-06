@@ -1,15 +1,16 @@
 ''' Main module. '''
-import sys
 import os
+import sys
 import time
-import pyodbc
-from faker import Faker
 from typing import List, Tuple
 
+import pyodbc
+from faker import Faker
 
-CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
 
-SQL_CREATE_TABLE = '''
+CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+
+SQL_CREATE_TABLE: str = '''
     CREATE TABLE users (
         id INT,
         name VARCHAR(50),
@@ -17,9 +18,9 @@ SQL_CREATE_TABLE = '''
     )
 '''
 
-SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
+SQL_INSERT_DATA: str = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?)'
 
-RECORD_COUNT = 10000
+RECORD_COUNT: int = 10000
 
 
 def get_data(count: int) -> List[Tuple]:
@@ -30,7 +31,7 @@ def get_data(count: int) -> List[Tuple]:
     return [row(i) for i in range(count)]
 
 
-def connect_db():
+def connect_db() -> pyodbc.Connection:
     ''' Connect to database. '''
     print('Establishing mssql database connection.')
     connection_str = CONNECTION_STRING.format(
@@ -43,7 +44,7 @@ def connect_db():
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def setup_table(cur, data):
+def setup_table(cur: pyodbc.Cursor, data: List):
     ''' Create table and populate data. '''
     print('Create a new table for users.')
     cur.execute(SQL_CREATE_TABLE)
@@ -55,7 +56,7 @@ def setup_table(cur, data):
     cur.commit()
 
 
-def fetch_data(cur):
+def fetch_data(cur: pyodbc.Cursor) -> List:
     ''' Fetch all data from the table. '''
     print('List of data.')
     cur.execute('SELECT * FROM users')
@@ -63,7 +64,7 @@ def fetch_data(cur):
     return cur.fetchall()
 
 
-def display_data(rows):
+def display_data(rows: List[Tuple[int, str, str]]):
     ''' Print rows in the console. '''
     template = '{:<5} {:<15} {:<10}'
     print(template.format('ID', 'NAME', 'CITY'))
@@ -78,7 +79,6 @@ def main():
     conn = connect_db()
     cur = conn.cursor()
     data = get_data(RECORD_COUNT)
-
 
     setup_table(cur, data)
     rows = fetch_data(cur)

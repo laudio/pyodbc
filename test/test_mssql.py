@@ -1,5 +1,4 @@
 ''' Tests for MSSQL. '''
-
 from util import exec_query, MSSQL
 
 

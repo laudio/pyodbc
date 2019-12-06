@@ -1,5 +1,4 @@
 ''' Tests for PostgreSQL. '''
-
 from util import exec_query, PG
 
 

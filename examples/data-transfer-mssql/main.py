@@ -1,13 +1,19 @@
-import sys
+''' Main module. '''
 import os
+import sys
 import time
+from typing import Tuple
+
 import pyodbc
 from faker import Faker
 
 
-CONNECTION_STRING = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-RECORD_COUNT = 10000
-SQL_INSERT_DATA = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
+CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+
+RECORD_COUNT: int = 10000
+
+SQL_INSERT_DATA: str = 'INSERT INTO users (id, name, city) VALUES (?, ?, ?);'
+
 
 
 def main():
@@ -37,7 +43,7 @@ def main():
             display_users(dest_db_cur)
 
 
-def connect_to_databases():
+def connect_to_databases() -> Tuple:
     ''' Extracts databases credentials from the environment and returns their connections. '''
     source_db_conn = get_connection(
         os.environ['SOURCE_DB_HOST'],
@@ -56,7 +62,7 @@ def connect_to_databases():
     return source_db_conn, dest_db_conn
 
 
-def get_connection(db_host, db_name, db_username, db_password):
+def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> pyodbc.Connection:
     ''' Create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
@@ -68,7 +74,7 @@ def get_connection(db_host, db_name, db_username, db_password):
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def populate_data(RECORD_COUNT: int, db_cursor):
+def populate_data(RECORD_COUNT: int, db_cursor: pyodbc.Cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, fake.format('name'), fake.format('city'))
@@ -77,7 +83,7 @@ def populate_data(RECORD_COUNT: int, db_cursor):
         db_cursor.execute(SQL_INSERT_DATA, row(i))
 
 
-def extract_sql(file: str):
+def extract_sql(file: str) -> str:
     ''' Reads an SQL file and returns it's contents. '''
     with open(file, 'rt') as file:
         contents = file.read()
@@ -85,7 +91,7 @@ def extract_sql(file: str):
     return contents
 
 
-def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
+def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor, dest_db_conn: pyodbc.Connection):
     ''' Extracts users data from source database and stores them in destination database. '''
     print('Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
@@ -99,7 +105,7 @@ def transfer_data(source_db_cursor, dest_db_cursor, dest_db_conn):
     dest_db_conn.commit()
 
 
-def display_users(db_cursor):
+def display_users(db_cursor: pyodbc.Cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users ORDER BY id')
     transferred_data = db_cursor.fetchall()

@@ -1,20 +1,21 @@
 ''' Utilities for test. '''
-
 import os
+from typing import Dict, List
+from logging import getLogger, basicConfig, DEBUG, RootLogger
+
 import pyodbc
 
-from logging import getLogger, basicConfig, DEBUG
 
 basicConfig(level='DEBUG')
-logger = getLogger()
+logger: RootLogger = getLogger()
 
 # Database Connections
-PG = 'pg'
-MSSQL = 'mssql'
-MYSQL = 'mysql'
+PG: str = 'pg'
+MSSQL: str = 'mssql'
+MYSQL: str = 'mysql'
 
 # Connection strings
-CONN_STR = ';'.join([
+CONN_STR: str = ';'.join([
     'DRIVER={driver}',
     'SERVER={server}',
     'PORT={port}',
@@ -23,7 +24,7 @@ CONN_STR = ';'.join([
     'PWD={password}'
 ])
 
-constr = {}
+constr: Dict = {}
 constr[PG] = lambda: CONN_STR.format(
     driver='{PostgreSQL Unicode}',
     port=5432,
@@ -32,6 +33,7 @@ constr[PG] = lambda: CONN_STR.format(
     username=os.environ['TEST_PG_DB_USER'],
     password=os.environ['TEST_PG_DB_PASSWORD']
 )
+
 constr[MSSQL] = lambda: CONN_STR.format(
     driver='{ODBC Driver 17 for SQL Server}',
     port=1433,
@@ -40,6 +42,7 @@ constr[MSSQL] = lambda: CONN_STR.format(
     username=os.environ['TEST_MSSQL_DB_USER'],
     password=os.environ['TEST_MSSQL_DB_PASSWORD']
 )
+
 constr[MYSQL] = lambda: CONN_STR.format(
     driver='{MySQL ODBC 8.0 Driver}',
     port=3306,
@@ -50,7 +53,7 @@ constr[MYSQL] = lambda: CONN_STR.format(
 )
 
 
-def connect(db: str):
+def connect(db: str) -> pyodbc.Connection:
     ''' Connect to the database server. '''
     if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
@@ -62,7 +65,7 @@ def connect(db: str):
     return pyodbc.connect(connection_str)
 
 
-def exec_query(db, sql):
+def exec_query(db: str, sql: str) -> List:
     ''' Execute a test SQL query on the given database. '''
     connection = connect(db)
 
