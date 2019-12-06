@@ -5,7 +5,6 @@ import time
 from typing import Tuple
 
 import pyodbc
-from pyodbc import Cursor, Connection
 from faker import Faker
 
 
@@ -46,7 +45,7 @@ def main():
             display_users(dest_db_cur)
 
 
-def get_connection(host: str, db_name: str, db_user: str, db_password: str) -> Connection:
+def get_connection(host: str, db_name: str, db_user: str, db_password: str) -> pyodbc.Connection:
     ''' Initiates and returns connection of a database.'''
     print(f'Establishing postgres database connection to {host}.')
     connection_str = CONNECTION_STRING.format(
@@ -78,7 +77,7 @@ def connect_to_databases() -> Tuple:
     return source_db_conn, dest_db_conn
 
 
-def populate_data(count: int, db_cursor: Cursor):
+def populate_data(count: int, db_cursor: pyodbc.Cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
@@ -95,7 +94,7 @@ def extract_sql(file: str) -> str:
     return contents
 
 
-def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn: Connection):
+def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor, dest_db_conn: pyodbc.Connection):
     ''' Extracts users data from source database and stores them in destination database.'''
     print(f'Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
@@ -109,7 +108,7 @@ def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn
     print(f"Transferred {len(rows)} rows of users data from source database to destination database.")
 
 
-def display_users(db_cursor: Cursor):
+def display_users(db_cursor: pyodbc.Cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users')
     transfered_data = db_cursor.fetchall()
