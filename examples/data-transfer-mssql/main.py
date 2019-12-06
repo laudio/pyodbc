@@ -1,11 +1,10 @@
 ''' Main module. '''
-import sys
 import os
+import sys
 import time
 from typing import Tuple
 
 import pyodbc
-from pyodbc import Cursor, Connection
 from faker import Faker
 
 
@@ -62,7 +61,7 @@ def connect_to_databases() -> Tuple:
     return source_db_conn, dest_db_conn
 
 
-def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> Connection:
+def get_connection(db_host: str, db_name: str, db_username: str, db_password: str) -> pyodbc.Connection:
     ''' Create database connection and returns connection. '''
     connection_str = CONNECTION_STRING.format(
         server=db_host,
@@ -74,7 +73,7 @@ def get_connection(db_host: str, db_name: str, db_username: str, db_password: st
     return pyodbc.connect(connection_str, timeout=300)
 
 
-def populate_data(RECORD_COUNT: int, db_cursor: Cursor):
+def populate_data(RECORD_COUNT: int, db_cursor: pyodbc.Cursor):
     ''' Generate user data. '''
     fake = Faker()
     row = lambda n: (n + 1, repr(fake.name()), repr(fake.city()))
@@ -91,7 +90,7 @@ def extract_sql(file: str) -> str:
     return contents
 
 
-def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn: Connection):
+def transfer_data(source_db_cursor: pyodbc.Cursor, dest_db_cursor: pyodbc.Cursor, dest_db_conn: pyodbc.Connection):
     ''' Extracts users data from source database and stores them in destination database. '''
     print('Extracting users data from source database.')
     source_db_cursor.execute('SELECT * FROM users')
@@ -105,7 +104,7 @@ def transfer_data(source_db_cursor: Cursor, dest_db_cursor: Cursor, dest_db_conn
     dest_db_conn.commit()
 
 
-def display_users(db_cursor: Cursor):
+def display_users(db_cursor: pyodbc.Cursor):
     ''' Displays users data. '''
     db_cursor.execute('SELECT * FROM users ORDER BY id')
     transferred_data = db_cursor.fetchall()
