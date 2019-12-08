@@ -22,13 +22,13 @@ The output of the application should look like this.
 
 ```bash
 app_1    | Establishing mssql database connection.
-app_1    | Create a new table for fruits.
-app_1    | Populate fruits data.
+app_1    | Create a new table for users.
+app_1    | Populate users data.
 app_1    | List of data.
-app_1    | ID    NAME            QUANTITY
+app_1    | ID    NAME            CITY
 app_1    | --------------------------------
-app_1    | 1     Banana          150
-app_1    | 2     Orange          64
-app_1    | 3     Apple           35
+app_1    | 1     Laura Levy      Evanberg
+app_1    | 2     Justin James    Caseyport
+app_1    | 3     Peggy Joseph    Baker Haven
 app_1    | Closing the connection.
 ```

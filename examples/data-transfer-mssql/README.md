@@ -21,17 +21,17 @@ $ docker-compose up
 The output of the application should look like this.
 
 ```
-app_1                | Create fruits table and populate data in source database.
-app_1                | Create fruits table in destination database.
-app_1                | Extracting fruits data from source database.
-app_1                | Transferring fruits data to destination database.
+app_1                | Create users table and populate data in source database.
+app_1                | Create users table in destination database.
+app_1                | Extracting users data from source database.
+app_1                | Transferring users data to destination database.
 app_1                |
 app_1                | 3 rows transferred
 app_1                |
-app_1                | Display fruits data of destination database.
-app_1                | ID    NAME            QUANTITY
+app_1                | Display users data of destination database.
+app_1                | ID    NAME            CITY
 app_1                | --------------------------------
-app_1                | 1     Banana          200
-app_1                | 2     Orange          20
-app_1                | 3     Apple           350
+app_1                | 1     Laura Levy       Evanberg
+app_1                | 2     Justin James     Caseyport
+app_1                | 3     Peggy Joseph     Baker haven
 ```
