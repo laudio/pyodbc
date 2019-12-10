@@ -1,0 +1,43 @@
+version: "3.3"
+
+services: 
+  mysql_source: 
+    image: mysql
+    ports: 
+        - "33060:3306"
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${SOURCE_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${SOURCE_DB_NAME}
+      MYSQL_USER: ${SOURCE_DB_USERNAME}
+      MYSQL_PASSWORD: ${SOURCE_DB_PASSWORD}
+    env_file: 
+      - .env
+  
+  mysql_destination: 
+    image: mysql 
+    ports: 
+        - "33061:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DEST_DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DEST_DB_NAME}
+      MYSQL_USER: ${DEST_DB_USERNAME}
+      MYSQL_PASSWORD: ${DEST_DB_PASSWORD}
+    env_file: 
+      - .env
+  
+  app: 
+    build: . 
+    depends_on: 
+      - mysql_source
+      - mysql_destination
+    environment: 
+      SOURCE_DB_HOST: mysql_source
+      SOURCE_DB_NAME: ${SOURCE_DB_NAME}
+      SOURCE_DB_USERNAME: ${SOURCE_DB_USERNAME}
+      SOURCE_DB_PASSWORD: ${SOURCE_DB_PASSWORD}
+      DEST_DB_HOST: mysql_destination
+      DEST_DB_NAME: ${DEST_DB_NAME}
+      DEST_DB_USERNAME: ${DEST_DB_USERNAME}
+      DESB_DB_PASSWORD: ${DEST_DB_PASSWORD}
+    env_file: 
+      - .env
