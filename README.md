@@ -72,6 +72,7 @@ Examples showing a basic use case.
 
 1. [MSSQL Example](examples/app-mssql)
 2. [PostgreSQL Example](examples/app-pg)
+3. [MySQL Example](examples/app-mysql)
 
 #### Data Pipelines
 
