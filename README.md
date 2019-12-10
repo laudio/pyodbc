@@ -80,6 +80,7 @@ Examples illustrating data pipelines using pyodbc.
 
 1. [Data Transfer Example (PostgreSQL)](examples/data-transfer-pg)
 2. [Data Transfer Example (MSSQL)](examples/data-transfer-mssql)
+3. [Data Transfer Example (MySQL)](examples/data-transfer-mysql)
 
 ## License
 
