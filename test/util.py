@@ -1,13 +1,13 @@
 ''' Utilities for test. '''
 import os
 from typing import Dict, List
-from logging import getLogger, basicConfig, DEBUG, RootLogger
+from logging import getLogger, basicConfig, Logger
 
-import pyodbc
+from pyodbc import connect, Connection
 
 
 basicConfig(level='DEBUG')
-logger: RootLogger = getLogger()
+logger: Logger = getLogger()
 
 # Database Connections
 PG: str = 'pg'
@@ -53,7 +53,7 @@ constr[MYSQL] = lambda: CONN_STR.format(
 )
 
 
-def connect(db: str) -> pyodbc.Connection:
+def connect(db: str) -> Connection:
     ''' Connect to the database server. '''
     if not constr.get(db):
         raise RuntimeError('Unsupported database connection: {}'.format(db))
@@ -62,7 +62,7 @@ def connect(db: str) -> pyodbc.Connection:
 
     logger.debug('Connecting to database server [{}].'.format(db))
 
-    return pyodbc.connect(connection_str)
+    return connect(connection_str)
 
 
 def exec_query(db: str, sql: str) -> List:
