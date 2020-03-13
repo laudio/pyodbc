@@ -1,10 +1,11 @@
 {
     "include": ["examples/**/*.py", "test/**/*.py"],
     "exclude":["venv", "*.pyc", "*.egg-info", ".coverage"],
-
-    "reportMissingImports": true,
+    "reportMissingImports": false,
     "reportUnusedImport": true,
     "reportUnusedFunction": true,
     "reportUnusedVariable": true,
-    "reportDuplicateImport": true
+    "reportDuplicateImport": true,
+    "reportOptionalSubscript": true,
+    "reportConstantRedefinition": true
 }
