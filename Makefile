@@ -17,6 +17,6 @@ lint-examples:
 	@docker run $(IMAGE_NAME):lint-examples
 
 check: 
-	@pyright
+	@pyright --verbose
 
 .PHONY: all test clean
