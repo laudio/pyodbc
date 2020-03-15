@@ -16,4 +16,7 @@ lint-examples:
 	@docker build --target=lint-examples -t $(IMAGE_NAME):lint-examples .
 	@docker run $(IMAGE_NAME):lint-examples
 
+check: 
+	@pyright --verbose
+
 .PHONY: all test clean

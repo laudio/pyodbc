@@ -64,6 +64,13 @@ $ cp .env.example .env.test
 $ make clean build test
 ```
 
+You can type check using pyright:
+
+```bash
+$ npm install -g pyright
+$ make check
+```
+
 ## Examples
 
 #### Simple Examples

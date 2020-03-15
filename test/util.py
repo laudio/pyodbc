@@ -1,13 +1,13 @@
 ''' Utilities for test. '''
 import os
 from typing import Dict, List
-from logging import getLogger, basicConfig, DEBUG, RootLogger
+from logging import getLogger, basicConfig, Logger
 
 import pyodbc
 
 
 basicConfig(level='DEBUG')
-logger: RootLogger = getLogger()
+logger: Logger = getLogger()
 
 # Database Connections
 PG: str = 'pg'
