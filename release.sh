@@ -2,6 +2,50 @@
 
 set -e
 
+
+printfln() {
+  printf "\n$1\n"
+}
+
+# TRAVIS_COMMIT_RANGE is usually invalid for force pushes - ignore such values
+# This is just a safe guard against force push on the main branch(s).
+if [ -n "$TRAVIS_COMMIT_RANGE" ]; then
+  if ! git rev-list "$TRAVIS_COMMIT_RANGE" >/dev/null; then
+    TRAVIS_COMMIT_RANGE=
+  fi
+fi
+
+# Find all the commits for the current build
+if [ -n "$TRAVIS_COMMIT_RANGE" ]; then
+  COMMIT_RANGE="${TRAVIS_COMMIT_RANGE/.../..}"
+fi
+
+printfln "Commit range: $COMMIT_RANGE"
+
+git log --oneline $COMMIT_RANGE
+
+# Get the modified files if any
+changed_files=$(git diff --name-only $TRAVIS_COMMIT_RANGE)
+printfln "Changed file: $changed_files"
+
+# important file patterns
+important_file_pattern=(Dockerfile requirements.txt)
+
+# Loops for each file changes mentioned break if any found
+for file in ${important_file_pattern[@]}; do
+  changed_file=$(git diff --name-only $TRAVIS_COMMIT_RANGE | sort -u | grep -oP "$file" | cat)
+  if [ -n "$changed_file" ]; then
+    printfln "Changes detected in: $changed_file"
+    changed=1
+    break
+  fi
+done
+
+if [ -z "$changed" ]; then
+  echo "Seems like no major changes will be seen in published images...exiting !!"
+  exit 0
+fi
+
 last_tag=$(git tag --sort=-creatordate | head -n 1)
 new_tag=$(semver bump patch "$last_tag")
 timestamp=$(date -u +%Y%m%d%H%M%S)
