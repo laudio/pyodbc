@@ -28,7 +28,6 @@ git log --oneline $COMMIT_RANGE
 changed_files=$(git diff --name-only $TRAVIS_COMMIT_RANGE)
 printfln "Changed file: $changed_files"
 
-# important file patterns
 important_file_pattern=(Dockerfile requirements.txt)
 
 # Loops for each file changes mentioned break if any found
@@ -42,7 +41,7 @@ for file in ${important_file_pattern[@]}; do
 done
 
 if [ -z "$changed" ]; then
-  echo "Seems like no major changes will be seen in published images...exiting !!"
+  echo "No changes detected, skipping release!"
   exit 0
 fi
 
