@@ -17,7 +17,7 @@ def test_pyodbc_pg():
     assert result == 'It works!'
 
 
-def test_sqlcmd():
+def test_sqlcmd_mssql():
     ''' Test connection to MSSQL Server. '''
     result = exec_sqlcmd_query("SELECT 'It works!'")
 
