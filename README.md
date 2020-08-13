@@ -89,6 +89,12 @@ Examples illustrating data pipelines using pyodbc.
 2. [Data Transfer Example (MSSQL)](examples/data-transfer-mssql)
 3. [Data Transfer Example (MySQL)](examples/data-transfer-mysql)
 
+### Scripts
+
+| Image                                 | Description                                                    |
+| ------------------------------------- | -------------------------------------------------------------- |
+| [pyodbc-sqlcmd](images/pyodbc-sqlcmd) | An alternative image which includes laudio/pyodbc andd sqlcmd. |
+
 ## License
 
 Licensed under [MIT](LICENSE).
