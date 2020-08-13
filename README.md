@@ -93,7 +93,7 @@ Examples illustrating data pipelines using pyodbc.
 
 | Image                                 | Description                                                    |
 | ------------------------------------- | -------------------------------------------------------------- |
-| [pyodbc-sqlcmd](images/pyodbc-sqlcmd) | An alternative image which includes laudio/pyodbc andd sqlcmd. |
+| [pyodbc-sqlcmd](images/pyodbc-sqlcmd) | An alternative image which includes laudio/pyodbc and sqlcmd. |
 
 ## License
 
