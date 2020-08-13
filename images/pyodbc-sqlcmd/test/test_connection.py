@@ -21,4 +21,4 @@ def test_sqlcmd_mssql():
     ''' Test connection to MSSQL Server. '''
     result = exec_sqlcmd_query("SELECT 'It works!'")
 
-    assert result == b'         \n---------\nIt works!\n\n(1 rows affected)\n'
+    assert 'It works' in str(result)

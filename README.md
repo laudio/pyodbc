@@ -89,7 +89,7 @@ Examples illustrating data pipelines using pyodbc.
 2. [Data Transfer Example (MSSQL)](examples/data-transfer-mssql)
 3. [Data Transfer Example (MySQL)](examples/data-transfer-mysql)
 
-### Scripts
+### Images
 
 | Image                                 | Description                                                    |
 | ------------------------------------- | -------------------------------------------------------------- |
