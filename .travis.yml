@@ -24,7 +24,7 @@ install:
   - hub --version
 
   # pyright
-  - npm install -g pyright
+  - npm install -g pyright@1.1.41
 
 before_script:
   - export IMAGE_NAME='laudio/pyodbc'
