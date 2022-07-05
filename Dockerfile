@@ -11,8 +11,11 @@ RUN \
   export MYSQL_CONNECTOR='mysql-connector-odbc-8.0.18-linux-glibc2.12-x86-64bit' && \
   export MYSQL_CONNECTOR_CHECKSUM='f2684bb246db22f2c9c440c4d905dde9' && \
   apt-get update && \
-  apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
-  gpg --keyserver hkp://keys.gnupg.net --recv-keys 5072E1F5 && \
+  apt-get install -y curl && \
+  curl -L -o multiarch-support_2.27-3ubuntu1_amd64.deb http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/multiarch-support_2.27-3ubuntu1_amd64.deb && \
+  apt-get install -y ./multiarch-support_2.27-3ubuntu1_amd64.deb && \
+  apt-get install -y build-essential unixodbc-dev g++ apt-transport-https && \
+  gpg --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5 && \
   #
   # Install pyodbc db drivers for MSSQL, PG and MySQL
   curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
@@ -28,8 +31,8 @@ RUN \
   myodbc-installer -a -d -n "MySQL ODBC 8.0" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   apt-get install -y msodbcsql17 odbc-postgresql && \
   #
-  # Update odbcinst.ini to make sure full path to driver is listed
-  sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/' /etc/odbcinst.ini > /tmp/temp.ini && \
+  # Update odbcinst.ini to make sure full path to driver is listed, and set CommLog to 0. i.e disables any communication logs to be written to files
+  sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/;s/CommLog=1/CommLog=0/' /etc/odbcinst.ini > /tmp/temp.ini && \
   mv -f /tmp/temp.ini /etc/odbcinst.ini && \
   # Install dependencies
   pip install --upgrade pip && \
