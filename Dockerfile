@@ -11,7 +11,8 @@ RUN \
   export MYSQL_CONNECTOR='mysql-connector-odbc-8.0.18-linux-glibc2.12-x86-64bit' && \
   export MYSQL_CONNECTOR_CHECKSUM='f2684bb246db22f2c9c440c4d905dde9' && \
   apt-get update && \
-  apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
+  apt-get install -y curl build-essential g++ apt-transport-https && \
+  apt-get install -y --no-install-recommends unixodbc-dev && \
   gpg --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5 && \
   #
   # Install pyodbc db drivers for MSSQL, PG and MySQL
