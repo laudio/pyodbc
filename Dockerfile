@@ -13,8 +13,8 @@ RUN \
   apt-get update && \
   apt-get install -y curl && \
   curl -L -o multiarch-support_2.27-3ubuntu1_amd64.deb http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/multiarch-support_2.27-3ubuntu1_amd64.deb && \
-  apt-get install ./multiarch-support_2.27-3ubuntu1_amd64.deb && \
-  apt-get install build-essential unixodbc-dev g++ apt-transport-https && \
+  apt-get install -y ./multiarch-support_2.27-3ubuntu1_amd64.deb && \
+  apt-get install -y build-essential unixodbc-dev g++ apt-transport-https && \
   gpg --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5 && \
   #
   # Install pyodbc db drivers for MSSQL, PG and MySQL
