@@ -31,11 +31,8 @@ RUN \
   myodbc-installer -a -d -n "MySQL ODBC 8.0" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   apt-get install -y msodbcsql17 odbc-postgresql && \
   #
-  # Update odbcinst.ini to make sure full path to driver is listed
-  sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/' /etc/odbcinst.ini > /tmp/temp.ini && \
-  mv -f /tmp/temp.ini /etc/odbcinst.ini && \
-  # Update odbcinst.ini to set CommLog to 0. i.e disables any communication logs to be written to files
-  sed 's/CommLog=1/CommLog=0/' /etc/odbcinst.ini > /tmp/temp.ini && \
+  # Update odbcinst.ini to make sure full path to driver is listed, and set CommLog to 0. i.e disables any communication logs to be written to files
+  sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/;s/CommLog=1/CommLog=0/' /etc/odbcinst.ini > /tmp/temp.ini && \
   mv -f /tmp/temp.ini /etc/odbcinst.ini && \
   # Install dependencies
   pip install --upgrade pip && \
