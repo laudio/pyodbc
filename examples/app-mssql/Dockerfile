@@ -1,4 +1,4 @@
-FROM laudio/pyodbc:1.0.8
+FROM laudio/pyodbc:latest
 
 WORKDIR /app
 
