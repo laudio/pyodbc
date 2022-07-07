@@ -21,7 +21,7 @@ $ docker pull laudio/pyodbc
 Usually this is expected to be used as a base image for your python app or scripts that requires pyodbc; in such such your `Dockerfile` might look something like this:
 
 ```Dockerfile
-FROM laudio/pyodbc:1.0.4
+FROM laudio/pyodbc:1.0.38
 
 WORKDIR /source
 
