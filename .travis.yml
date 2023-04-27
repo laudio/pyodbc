@@ -24,6 +24,7 @@ install:
   - hub --version
 
 before_script:
+  - cd images/pyodbc
   - export IMAGE_NAME='laudio/pyodbc'
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
   - git fetch --tags
@@ -46,7 +47,7 @@ script:
 
   # Run tests
   # Publish image to registry if merged into master.
-  - make test && ./release.sh
+  - make test
   - make lint-examples
 
   # static type checking
