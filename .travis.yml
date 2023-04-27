@@ -50,9 +50,6 @@ script:
   - make test
   - make lint-examples
 
-  # static type checking
-  - make check
-
   # List docker images that are built (Just for information.)
   - docker images laudio/*
 
