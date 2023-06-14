@@ -8,8 +8,8 @@ COPY requirements.txt .
 # Setup dependencies for pyodbc
 RUN \
   export ACCEPT_EULA='Y' && \
-  export MYSQL_CONNECTOR='mysql-connector-odbc_8.0.33-1debian11_amd64.deb' && \
-  export MYSQL_CONNECTOR_CHECKSUM='1cf0a1688156f84789209772c36d083f' && \
+  export MYSQL_CONNECTOR='mysql-connector-odbc-8.0.33-linux-glibc2.28-x86-64bit' && \
+  export MYSQL_CONNECTOR_CHECKSUM='41d03d5df0c631f8071cc697f7714620' && \
   # Install build dependencies
   apt-get update && \
   apt-get install -y curl build-essential unixodbc-dev g++ apt-transport-https && \
@@ -17,12 +17,10 @@ RUN \
   curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
   curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list && \
   curl -L -o ${MYSQL_CONNECTOR}.tar.gz https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/${MYSQL_CONNECTOR}.tar.gz && \
-  curl -L -o ${MYSQL_CONNECTOR}.tar.gz.asc https://downloads.mysql.com/archives/gpg/\?file\=${MYSQL_CONNECTOR}.tar.gz\&p\=10 && \
-  gpg --verify ${MYSQL_CONNECTOR}.tar.gz.asc && \
   echo "${MYSQL_CONNECTOR_CHECKSUM} ${MYSQL_CONNECTOR}.tar.gz" | md5sum -c - && \
   apt-get update && \
   gunzip ${MYSQL_CONNECTOR}.tar.gz && tar xvf ${MYSQL_CONNECTOR}.tar && \
-  cp ${MYSQL_CONNECTOR}/bin/* /usr/local/bin && cp ${MYSQL_CONNECTOR}/lib/* /usr/local/lib && \
+  cp -r ${MYSQL_CONNECTOR}/bin/* /usr/local/bin && cp -r ${MYSQL_CONNECTOR}/lib/* /usr/local/lib && \
   myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" && \
   myodbc-installer -a -d -n "MySQL ODBC 8.0" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   apt-get install -y msodbcsql18 odbc-postgresql && \
