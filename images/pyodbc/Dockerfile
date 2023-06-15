@@ -21,8 +21,8 @@ RUN \
   apt-get update && \
   gunzip ${MYSQL_CONNECTOR}.tar.gz && tar xvf ${MYSQL_CONNECTOR}.tar && \
   cp -r ${MYSQL_CONNECTOR}/bin/* /usr/local/bin && cp -r ${MYSQL_CONNECTOR}/lib/* /usr/local/lib && \
-  myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" && \
-  myodbc-installer -a -d -n "MySQL ODBC 8.0" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
+  myodbc-installer -a -d -n "MySQL ODBC 8.0.33 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" && \
+  myodbc-installer -a -d -n "MySQL ODBC 8.0.33" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   apt-get install -y msodbcsql18 odbc-postgresql && \
   # Update odbcinst.ini to make sure full path to driver is listed, and set CommLog to 0. i.e disables any communication logs to be written to files
   sed 's/Driver=psql/Driver=\/usr\/lib\/x86_64-linux-gnu\/odbc\/psql/;s/CommLog=1/CommLog=0/' /etc/odbcinst.ini > /tmp/temp.ini && \
