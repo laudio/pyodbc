@@ -21,7 +21,8 @@ CONN_STR: str = ';'.join([
     'PORT={port}',
     'DATABASE={database}',
     'UID={username}',
-    'PWD={password}'
+    'PWD={password}',
+    'TrustServerCertificate=yes'
 ])
 
 constr: Dict = {}
@@ -35,16 +36,16 @@ constr[PG] = lambda: CONN_STR.format(
 )
 
 constr[MSSQL] = lambda: CONN_STR.format(
-    driver='{ODBC Driver 17 for SQL Server}',
+    driver='{ODBC Driver 18 for SQL Server}',
     port=1433,
     server=os.environ['TEST_MSSQL_DB_HOST'],
     database=os.environ['TEST_MSSQL_DB_NAME'],
     username=os.environ['TEST_MSSQL_DB_USER'],
-    password=os.environ['TEST_MSSQL_DB_PASSWORD']
+    password=os.environ['TEST_MSSQL_DB_PASSWORD'],
 )
 
 constr[MYSQL] = lambda: CONN_STR.format(
-    driver='{MySQL ODBC 8.0 Driver}',
+    driver='{MySQL ODBC 8.0.33 Driver}',
     port=3306,
     server=os.environ['TEST_MYSQL_DB_HOST'],
     database=os.environ['TEST_MYSQL_DB_NAME'],
