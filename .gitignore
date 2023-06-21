@@ -5,5 +5,4 @@
 __pycache__
 .vscode
 venv
-pyodbc
 .idea

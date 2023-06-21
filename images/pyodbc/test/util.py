@@ -11,8 +11,9 @@ logger: Logger = getLogger()
 
 # Database Connections
 PG: str = 'pg'
-MSSQL: str = 'mssql'
 MYSQL: str = 'mysql'
+MSSQL_17: str = 'mssql_17'
+MSSQL_18: str = 'mssql_18'
 
 # Connection strings
 CONN_STR: str = ';'.join([
@@ -21,7 +22,8 @@ CONN_STR: str = ';'.join([
     'PORT={port}',
     'DATABASE={database}',
     'UID={username}',
-    'PWD={password}'
+    'PWD={password}',
+    'TrustServerCertificate=yes'
 ])
 
 constr: Dict = {}
@@ -34,24 +36,32 @@ constr[PG] = lambda: CONN_STR.format(
     password=os.environ['TEST_PG_DB_PASSWORD']
 )
 
-constr[MSSQL] = lambda: CONN_STR.format(
+constr[MSSQL_17] = lambda: CONN_STR.format(
     driver='{ODBC Driver 17 for SQL Server}',
     port=1433,
     server=os.environ['TEST_MSSQL_DB_HOST'],
     database=os.environ['TEST_MSSQL_DB_NAME'],
     username=os.environ['TEST_MSSQL_DB_USER'],
-    password=os.environ['TEST_MSSQL_DB_PASSWORD']
+    password=os.environ['TEST_MSSQL_DB_PASSWORD'],
+)
+
+constr[MSSQL_18] = lambda: CONN_STR.format(
+    driver='{ODBC Driver 18 for SQL Server}',
+    port=1433,
+    server=os.environ['TEST_MSSQL_DB_HOST'],
+    database=os.environ['TEST_MSSQL_DB_NAME'],
+    username=os.environ['TEST_MSSQL_DB_USER'],
+    password=os.environ['TEST_MSSQL_DB_PASSWORD'],
 )
 
 constr[MYSQL] = lambda: CONN_STR.format(
-    driver='{MySQL ODBC 8.0 Driver}',
+    driver='{MySQL ODBC 8.0.33 Driver}',
     port=3306,
     server=os.environ['TEST_MYSQL_DB_HOST'],
     database=os.environ['TEST_MYSQL_DB_NAME'],
     username=os.environ['TEST_MYSQL_DB_USER'],
     password=os.environ['TEST_MYSQL_DB_PASSWORD']
 )
-
 
 def connect(db: str) -> pyodbc.Connection:
     ''' Connect to the database server. '''
@@ -63,7 +73,6 @@ def connect(db: str) -> pyodbc.Connection:
     logger.debug('Connecting to database server [{}].'.format(db))
 
     return pyodbc.connect(connection_str)
-
 
 def exec_query(db: str, sql: str) -> List:
     ''' Execute a test SQL query on the given database. '''

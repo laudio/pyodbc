@@ -1,4 +1,4 @@
-dist: bionic
+dist: focal
 
 language: python
 
@@ -9,26 +9,11 @@ branches:
   only:
     - master
 
-addons:
-  apt:
-    packages:
-      - docker-ce
-
-install:
-  # Semver Bash
-  - sudo curl https://raw.githubusercontent.com/fsaintjacques/semver-tool/2.1.0/src/semver -o /usr/local/bin/semver && sudo chmod +x /usr/local/bin/semver
-  - semver --version
-
-  # Hub
-  - sudo snap install hub --classic
-  - hub --version
-
-  # pyright
-  - npm install -g pyright@1.1.41
+services:
+  - docker
 
 before_script:
-  - export IMAGE_NAME='laudio/pyodbc'
-  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - cd images/pyodbc
   - git fetch --tags
   - git config --global user.name "Brother"
   - git config --global user.email "bot@laudio.com"
@@ -49,11 +34,8 @@ script:
 
   # Run tests
   # Publish image to registry if merged into master.
-  - make test && ./release.sh
+  - make test
   - make lint-examples
-
-  # static type checking
-  - make check
 
   # List docker images that are built (Just for information.)
   - docker images laudio/*
