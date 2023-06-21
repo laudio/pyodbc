@@ -1,4 +1,4 @@
-FROM laudio/pyodbc:1.0.38 AS base
+FROM laudio/pyodbc:2.0.0 AS base
 
 USER root
 
@@ -19,4 +19,4 @@ RUN pip install --upgrade pip && pip install -r requirements-dev.txt
 
 COPY test ./test
 
-CMD ["pytest", "-vvv"]
+CMD pylint -v -E **/*.py && pytest -vvv
