@@ -40,6 +40,15 @@ script:
   # List docker images that are built (Just for information.)
   - docker images laudio/*
 
+  - cd ../pyodbc-sqlcmd
+
+  # Generate .env.test file
+  - cp .env.example .env.test
+  - export $(egrep -v '^#' .env.test | xargs)
+
+  - make clean build
+  - make test
+
 after_script:
   # Stop the running containers
   - docker stop test-mssql-server
