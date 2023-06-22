@@ -11,19 +11,23 @@ logger = getLogger()
 
 # Database Connections
 PG = 'pg'
-MSSQL = 'mssql'
+MSSQL_17: str = 'mssql_17'
+MSSQL_18: str = 'mssql_18'
 
 # Database Drivers
 drivers = {}
 drivers[PG] = '{PostgreSQL Unicode}'
-drivers[MSSQL] = '{ODBC Driver 17 for SQL Server}'
+drivers[MSSQL_17] = '{ODBC Driver 17 for SQL Server}'
+drivers[MSSQL_18] = '{ODBC Driver 18 for SQL Server}'
 conn_str = ';'.join([
     'DRIVER={driver}',
     'SERVER={server}',
     'PORT={port}',
     'DATABASE={database}',
     'UID={username}',
-    'PWD={password}'
+    'PWD={password}',
+    'TrustServerCertificate=yes'
+
 ])
 
 
@@ -41,7 +45,7 @@ def get_db_config(db):
             "port": 5432
         }
 
-    elif db == MSSQL:
+    elif db == MSSQL_17:
         return {
             "driver": driver,
             "server": os.environ['TEST_MSSQL_DB_HOST'],
@@ -50,7 +54,16 @@ def get_db_config(db):
             "password": os.environ['TEST_MSSQL_DB_PASSWORD'],
             "port": 1433
         }
-
+    
+    elif db == MSSQL_18:
+        return {
+            "driver": driver,
+            "server": os.environ['TEST_MSSQL_DB_HOST'],
+            "database": os.environ['TEST_MSSQL_DB_NAME'],
+            "username": os.environ['TEST_MSSQL_DB_USER'],
+            "password": os.environ['TEST_MSSQL_DB_PASSWORD'],
+            "port": 1433,
+        }
     else:
         raise RuntimeError('Unsupported database connection: {}'.format(db))
 
@@ -79,9 +92,10 @@ def exec_pyodbc_query(db, sql):
     return result
 
 
-def exec_sqlcmd_query(sql):
+def exec_sqlcmd_query(db, sql):
     ''' Execute a test SQL query on the given database. '''
-    db_config = get_db_config(MSSQL)
+    db_config = get_db_config(db)
+    
     command = (
         'sqlcmd -S $DB_SERVER,$DB_PORT -U $DB_USER -P "$DB_PASSWORD" -d $DB_DATABASE -b '
         + '-Q "{}"'.format(sql)
