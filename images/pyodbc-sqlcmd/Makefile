@@ -12,7 +12,4 @@ build:
 test:
 	@docker run --env-file=./.env.test --network=host $(IMAGE_NAME):test
 
-check:
-	@pyright --verbose
-
 .PHONY: all test clean
