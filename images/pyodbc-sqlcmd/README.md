@@ -9,7 +9,7 @@ https://hub.docker.com/r/laudio/pyodbc
 #### Pull the image
 
 ```bash
-$ docker pull laudio/pyodbc:1.0.37-sqlcmd
+$ docker pull laudio/pyodbc:2.0.0-sqlcmd
 ```
 
 #### Using as a base image
@@ -17,7 +17,7 @@ $ docker pull laudio/pyodbc:1.0.37-sqlcmd
 Usually this is expected to be used as a base image for your python app or scripts that requires pyodbc; in such such your `Dockerfile` might look something like this:
 
 ```Dockerfile
-FROM laudio/pyodbc:1.0.37-sqlcmd
+FROM laudio/pyodbc:2.0.0-sqlcmd
 
 WORKDIR /source
 
