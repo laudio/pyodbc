@@ -1,4 +1,4 @@
-FROM laudio/pyodbc:2.0.0 AS base
+FROM laudio/pyodbc:2.1.0 AS base
 
 USER root
 
