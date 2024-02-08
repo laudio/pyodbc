@@ -6,3 +6,7 @@ __pycache__
 .vscode
 venv
 .idea
+
+mysql-data
+postgresql-data
+sqlserver-data

@@ -1,0 +1,31 @@
+# This is a docker-compose file for running SQL Server, PostgreSQL, and MySQL for testing purposes.
+version: "3.8"
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=TestPassword@1234
+    ports:
+      - 1433:1433
+    volumes:
+      - ./sqlserver-data:/var/opt/mssql
+
+  postgresql:
+    image: postgres:15.5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=TestPassword@1234
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data
+
+  mysql:
+    image: mysql:8.0.33
+    environment:
+      - MYSQL_ROOT_PASSWORD=TestPassword@1234
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql-data:/var/lib/mysql
