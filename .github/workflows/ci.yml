@@ -45,3 +45,11 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},name-canonical=true,push=false
+      - name: Start database servers
+        run: |
+          docker-compose up -d
+          sleep 15s
+      - name: Run integration tests
+        run: make test
+      - name: Stop database servers
+        run: docker-compose down
