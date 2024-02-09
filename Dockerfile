@@ -1,7 +1,7 @@
 # STAGE: base
 # -----------
 # The main image that is published.
-FROM python:3.11.8-slim-bookworm AS base
+FROM python:3.11-slim-bookworm AS base
 
 ARG TARGETPLATFORM
 
@@ -9,10 +9,9 @@ COPY requirements.txt .
 
 RUN \
   ARCH=$(case ${TARGETPLATFORM:-linux/amd64} in \
-  "linux/amd64")   echo "x86-64"  ;; \
-  "linux/arm/v7")  echo "armhf"   ;; \
-  "linux/arm64")   echo "aarch64" ;; \
-  *)               echo ""        ;; esac) && \
+  "linux/amd64")   echo "x86-64bit" ;; \
+  "linux/arm64")   echo "aarch64"   ;; \
+  *)               echo ""          ;; esac) && \
   echo "ARCH=$ARCH" && \
   # Install build dependencies
   apt-get update && \
