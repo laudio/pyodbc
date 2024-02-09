@@ -1,7 +1,7 @@
 # STAGE: base
 # -----------
 # The main image that is published.
-FROM python:3.11-slim-bookworm AS base
+FROM python:3.11.8-slim-bookworm AS base
 
 ARG TARGETPLATFORM
 
