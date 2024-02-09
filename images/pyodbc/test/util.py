@@ -45,7 +45,7 @@ constr[MSSQL] = lambda: CONN_STR.format(
 )
 
 constr[MYSQL] = lambda: CONN_STR.format(
-    driver='{MySQL ODBC 8.0.33 Driver}',
+    driver='{MySQL ODBC 8.3 Unicode Driver}',
     port=3306,
     server=os.environ['TEST_MYSQL_DB_HOST'],
     database=os.environ['TEST_MYSQL_DB_NAME'],
