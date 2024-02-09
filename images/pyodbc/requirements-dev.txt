@@ -1,2 +1,0 @@
-pytest==7.*
-pylint==2.*
