@@ -9,7 +9,7 @@ COPY requirements.txt .
 
 RUN \
   ARCH=$(case ${TARGETPLATFORM:-linux/amd64} in \
-  "linux/amd64")   echo "x86_64"  ;; \
+  "linux/amd64")   echo "x86-64"  ;; \
   "linux/arm/v7")  echo "armhf"   ;; \
   "linux/arm64")   echo "aarch64" ;; \
   *)               echo ""        ;; esac) && \
