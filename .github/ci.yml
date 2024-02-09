@@ -5,6 +5,9 @@ on:
     types: [opened, synchronize, reopened]
     branches:
       - main
+  push:
+    branches:
+      - main
 
 env:
   REGISTRY_IMAGE: laudio/pyodbc
