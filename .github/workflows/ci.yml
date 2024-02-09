@@ -50,6 +50,8 @@ jobs:
           docker-compose up -d
           sleep 15s
       - name: Run integration tests
-        run: make test
+        run: |
+          cp .env.example .env.test
+          make test
       - name: Stop database servers
         run: docker-compose down
