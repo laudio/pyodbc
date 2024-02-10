@@ -49,7 +49,7 @@ jobs:
       - name: Start database servers
         run: |
           docker-compose up -d
-          sleep 15s
+          sleep 5s
       - name: Run integration tests
         run: |
           cp .env.example .env.test
