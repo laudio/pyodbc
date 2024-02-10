@@ -1,7 +1,7 @@
-# STAGE: base
+# STAGE: main
 # -----------
 # The main image that is published.
-FROM python:3.11-slim-bookworm AS base
+FROM python:3.11-slim-bookworm AS main
 
 ARG TARGETPLATFORM
 
@@ -36,29 +36,14 @@ RUN \
   apt-get remove -y curl apt-transport-https debconf-utils g++ gcc rsync unixodbc-dev build-essential gnupg2 && \
   apt-get autoremove -y && apt-get autoclean -y
 
-# STAGE: dev
-# ----------
-# Intermediate image used to install dependencies.
-FROM base AS dev
-
-COPY requirements-dev.txt .
-RUN pip install -r requirements-dev.txt
-
 # STAGE: test
 # -----------
 # Image used for running tests.
-FROM dev AS test
+FROM main AS test
 
+COPY requirements-dev.txt .
+RUN pip install -r requirements-dev.txt
 WORKDIR /test
 COPY test ./test
 
 CMD pylint -v -E **/*.py && pytest -v
-
-# STAGE: lint-examples
-# --------------------
-# Image used to lint examples.
-FROM dev AS lint-examples
-
-COPY examples ./examples
-RUN for f in examples/*/requirements.txt; do pip install -r "$f"; done
-CMD pylint -v -E examples/**/*.py
