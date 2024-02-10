@@ -1,4 +1,4 @@
-[![Travis](https://img.shields.io/travis/com/laudio/pyodbc.svg?style=flat-square&branch=master)](https://travis-ci.com/laudio/pyodbc)
+[![Build](https://github.com/laudio/pyodbc/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/laudio/pyodbc/actions/workflows/ci.yml)
 [![LICENSE](https://img.shields.io/github/license/laudio/pyodbc.svg?style=flat-square)](https://github.com/laudio/pyodbc/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laudio/pyodbc)
 
@@ -8,31 +8,31 @@ Docker image with python 3.11 and [pyodbc](https://github.com/mkleehammer/pyodbc
 
 ## Usage
 
-#### Pull the image
+### Pull the image
 
 ```bash
 $ docker pull laudio/pyodbc
 ```
 
-#### Using as a base image
+### Usage as a base image
 
-Usually this is expected to be used as a base image for your python app or scripts that requires pyodbc; in such such your `Dockerfile` might look something like this:
+Use `laudio/pyodbc` as a base image for your python script.
 
 ```Dockerfile
 FROM laudio/pyodbc:3.0.0
 
-WORKDIR /source
+WORKDIR /app
 
 # Add your source files.
-COPY ["app", "./app"]
+COPY ["src", "./src"]
 COPY ["setup.py", "./"]
 
 RUN pip install .
 
-CMD ["python", "app/main.py"]
+CMD ["python", "src/main.py"]
 ```
 
-## Development
+## Development (Contributing)
 
 ```bash
 # 1. Clone this repository.
@@ -64,7 +64,7 @@ $ make clean build test
 
 ## Examples
 
-#### Basic Connections
+### Basic Connections
 
 Examples showing a basic use case.
 
@@ -72,7 +72,7 @@ Examples showing a basic use case.
 2. [PostgreSQL Example](examples/app-pg)
 3. [MySQL Example](examples/app-mysql)
 
-#### Data Pipelines
+### Data Pipelines
 
 Examples illustrating data pipelines using pyodbc.
 
