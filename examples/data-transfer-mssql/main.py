@@ -8,7 +8,7 @@ import pyodbc
 from faker import Faker
 
 
-CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+CONNECTION_STRING: str = 'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password};TrustServerCertificate=yes;'
 
 RECORD_COUNT: int = 10000
 
