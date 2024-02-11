@@ -46,6 +46,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=docker,name=${{ env.REGISTRY_IMAGE }},name-canonical=true,push=false
+      - name: List docker image
+        run: docker image ls ${{ env.REGISTRY_IMAGE }}
       - name: Start database servers
         run: |
           docker-compose up -d

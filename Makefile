@@ -6,8 +6,8 @@ clean:
 	@find . -name '*.pyc' -delete
 
 build:
-	@docker build --target=base -t $(IMAGE_NAME) .
-	@docker build --target=test -t $(IMAGE_NAME):test .
+	@docker buildx build --target=main -t $(IMAGE_NAME) .
+	@docker buildx build --target=test -t $(IMAGE_NAME):test .
 
 test:
 	@docker run --env-file=./.env.test --network=host $(IMAGE_NAME):test

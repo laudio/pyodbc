@@ -1,7 +1,7 @@
 # STAGE: main
 # -----------
 # The main image that is published.
-FROM python:3.11-slim-bookworm AS main
+FROM python:3.11.8-slim-bookworm AS main
 
 ARG TARGETPLATFORM
 
@@ -27,6 +27,7 @@ RUN \
   myodbc-installer -a -d -n "MySQL ODBC 8.3 Unicode Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" && \
   myodbc-installer -a -d -n "MySQL ODBC 8.3 ANSI Driver" -t "Driver=/usr/local/lib/libmyodbc8a.so" && \
   myodbc-installer -d -l && \
+  rm -rf mysql_connector* && \
   # Install ODBC Driver for SQL Server and PostgreSQL
   ACCEPT_EULA='Y' apt-get install -y msodbcsql18 odbc-postgresql && \
   # Install dependencies (pyobdc)
