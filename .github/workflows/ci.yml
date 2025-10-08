@@ -50,11 +50,11 @@ jobs:
         run: docker image ls ${{ env.REGISTRY_IMAGE }}
       - name: Start database servers
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 10s
       - name: Run integration tests
         run: |
           cp .env.example .env.test
           make test
       - name: Stop database servers
-        run: docker-compose down
+        run: docker compose down
