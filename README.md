@@ -19,7 +19,7 @@ $ docker pull laudio/pyodbc
 Use `laudio/pyodbc` as a base image for your python script.
 
 ```Dockerfile
-FROM laudio/pyodbc:3.0.0
+FROM laudio/pyodbc:3.0.1
 
 WORKDIR /app
 
