@@ -2,6 +2,8 @@
 [![LICENSE](https://img.shields.io/github/license/laudio/pyodbc.svg?style=flat-square)](https://github.com/laudio/pyodbc/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/laudio/pyodbc)
 
+> ⚠️ This image is no longer maintained. Please copy over the Dockerfile and make it yours.
+
 # pyodbc
 
 Docker image with python 3.11 and [pyodbc](https://github.com/mkleehammer/pyodbc). Includes ODBC drivers for MSSQL, PostgreSQL and MySQL.
